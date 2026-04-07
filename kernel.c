@@ -264,7 +264,7 @@ static void execute_command(const char* cmd)
     else if (strcmp(cmd, "reboot") == 0)
     {
         println("Rebooting...");
-        sleep_ms(1000);
+        sleep_ms(1);
         reboot();
     }
     else if (strcmp(cmd, "mem") == 0) 
