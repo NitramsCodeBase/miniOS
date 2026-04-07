@@ -1,2 +1,27 @@
+# Object files
+*.o
 *.obj
+
+# Executables
 *.exe
+*.out
+
+# Kernel / OS build artifacts
+*.bin
+
+# Specific files (optional)
+kernel.bin
+os-image.bin
+
+# Temp / logs
+*.log
+
+# Windows
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Build folders (falls du später nutzt)
+build/
+dist/

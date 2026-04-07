@@ -1,3 +1,6 @@
+#include "libs/io.h"
+#include "libs/pit.h"
+
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -13,18 +16,6 @@ static u8 color = WHITE_ON_BLACK;
 
 static char input_buffer[128];
 static int input_len = 0;
-
-static inline u8 inb(u16 port)
-{
-    u8 result;
-    __asm__ volatile ("inb %1, %0" : "=a"(result) : "Nd"(port));
-    return result;
-}
-
-static inline void outb(u16 port, u8 value)
-{
-    __asm__ volatile ("outb %0, %1" : : "a"(value), "Nd"(port));
-}
 
 static void move_cursor()
 {
@@ -249,12 +240,13 @@ static void execute_command(const char* cmd)
     if (strcmp(cmd, "help") == 0)
     {
         println("Commands:");
-        println("help   - show commands");
-        println("clear  - clear screen");
-        println("about  - show system info");
-        println("echo   - echo text");
-        println("mem    - shows memory information");
-        println("reboot - reboot machine");
+        println("help     - show commands");
+        println("clear    - clear screen");
+        println("about    - show system info");
+        println("echo     - echo text");
+        println("mem      - shows memory information");
+        println("reboot   - reboot machine");
+        println("shutdown - shutdown the machine");
     }
     else if (strcmp(cmd, "clear") == 0)
     {
@@ -272,6 +264,7 @@ static void execute_command(const char* cmd)
     else if (strcmp(cmd, "reboot") == 0)
     {
         println("Rebooting...");
+        sleep_ms(1000);
         reboot();
     }
     else if (strcmp(cmd, "mem") == 0) 
@@ -305,6 +298,9 @@ static void execute_command(const char* cmd)
 void kernel_main()
 {
     clear_screen();
+
+    pit_init(1000);
+
     println("miniOS 32-bit");
     println("Type 'help' for commands.");
     put_char('\n');
