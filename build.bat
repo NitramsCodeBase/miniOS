@@ -1,11 +1,14 @@
 @echo off
 @echo.
 @echo building image ...
+del boot.bin
 del kernel_entry.obj
 del kernel.o
 del kernel.exe
 del kernel.bin
 del os-image.bin
+
+nasm -f bin boot.asm -o boot.bin
 nasm -f win32 kernel_entry.asm -o kernel_entry.obj >nul
 
 rem adding files here
