@@ -1,6 +1,7 @@
 # Object files
 *.o
 *.obj
+*.img
 
 # Executables
 *.exe
@@ -23,5 +24,4 @@ Thumbs.db
 .vscode/
 
 # Build folders (falls du später nutzt)
-build/
 dist/
