@@ -15,11 +15,11 @@ void execute_command(const char* cmd)
         println("reboot   - reboot machine");
         println("shutdown - shutdown the machine");
     }
-    else if (strcmp(cmd, "clear") == 0)
+    else if (strcmp(cmd, "clear") == 0 || strcmp(cmd, "cls") == 0)
     {
         clear_screen();
     }
-    else if (strcmp(cmd, "about") == 0)
+    else if (strcmp(cmd, "about") == 0 || strcmp(cmd, "ver") == 0)
     {
         println("miniOS 32-bit Kernel 1.0");
         println("Protected Mode active");
@@ -32,6 +32,11 @@ void execute_command(const char* cmd)
     {
         println("Rebooting...");
         reboot();
+    }
+    else if (strcmp(cmd, "shutdown") == 0 || strcmp(cmd, "exit") == 0)
+    {
+        println("Shutting down...");
+        exit_qemu();
     }
     else if (strcmp(cmd, "mem") == 0) 
     {

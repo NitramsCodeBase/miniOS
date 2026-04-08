@@ -184,6 +184,15 @@ void reboot()
     outb(0x64, 0xFE);
 }
 
+void exit_qemu()
+{
+    __asm__ __volatile__ (
+        "movw $0x2000, %ax \n\t"
+        "movw $0x604, %dx  \n\t"
+        "outw %ax, %dx"
+    );
+}
+
 void print_number(int num)
 {
     char buffer[16];

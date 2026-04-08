@@ -42,6 +42,7 @@ void prompt();
 void backspace();
 char scancode_to_ascii(u8 sc);
 void reboot();
+void exit_qemu();
 void print_number(int num);
 
 #endif
