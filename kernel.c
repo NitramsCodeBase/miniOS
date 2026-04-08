@@ -1,31 +1,6 @@
 #include "libs/io.h"
+#include "libs/string.h"
 #include "libs/pit.h"
-
-// typedef unsigned char  u8;
-// typedef unsigned short u16;
-// typedef unsigned int   u32;
-
-// #define VGA_MEMORY ((u16*)0xB8000)
-// #define VGA_WIDTH 80
-// #define VGA_HEIGHT 25
-// #define WHITE_ON_BLACK 0x0F
-
-// static int cursor_row = 0;
-// static int cursor_col = 0;
-// static u8 color = WHITE_ON_BLACK;
-
-// static char input_buffer[128];
-// static int input_len = 0;
-
-// static void move_cursor()
-// {
-//     u16 pos = (u16)(cursor_row * VGA_WIDTH + cursor_col);
-
-//     outb(0x3D4, 0x0F);
-//     outb(0x3D5, (u8)(pos & 0xFF));
-//     outb(0x3D4, 0x0E);
-//     outb(0x3D5, (u8)((pos >> 8) & 0xFF));
-// }
 
 static void clear_screen()
 {
@@ -109,18 +84,6 @@ static void println(const char* s)
     put_char('\n');
 }
 
-static int strcmp(const char* a, const char* b)
-{
-    while (*a && *b)
-    {
-        if (*a != *b)
-            return (int)(unsigned char)*a - (int)(unsigned char)*b;
-        a++;
-        b++;
-    }
-    return (int)(unsigned char)*a - (int)(unsigned char)*b;
-}
-
 static int starts_with(const char* str, const char* prefix)
 {
     while (*prefix)
@@ -131,13 +94,6 @@ static int starts_with(const char* str, const char* prefix)
         prefix++;
     }
     return 1;
-}
-
-static int strlen(const char* s)
-{
-    int len = 0;
-    while (s[len]) len++;
-    return len;
 }
 
 static void prompt()
@@ -285,13 +241,16 @@ static void execute_command(const char* cmd)
          print_number(free_kb / 1024);
          println(" MB");
     }
-    else if (strlen(cmd) == 0)
-    {
-    }
     else
     {
-        print("Unknown command: ");
-        println(cmd);
+        if(strcmp(cmd, "") == 0)
+            return;
+
+        char buffer[256];
+        strcpy(buffer, "Unknown command: ");
+        strcat(buffer, cmd);
+
+        println(buffer);
     }
 }
 
