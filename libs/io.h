@@ -32,5 +32,16 @@ static inline void outb(u16 port, u8 value)
 }
 
 void move_cursor();
+void clear_screen();
+void scroll();
+void put_char(char c);
+void print(const char* s);
+void println(const char* s);
+int starts_with(const char* str, const char* prefix);
+void prompt();
+void backspace();
+char scancode_to_ascii(u8 sc);
+void reboot();
+void print_number(int num);
 
 #endif
