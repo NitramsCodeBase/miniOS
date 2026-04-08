@@ -1,5 +1,5 @@
 #include <stdarg.h>
-#include "io.h"
+#include "../kernel/io.h"
 #include "string.h"
 
 int strlen(const char* s)

@@ -1,7 +1,7 @@
-#include "libs/io.h"
-#include "libs/string.h"
-#include "libs/pit.h"
-#include "libs/commands.h"
+#include "io.h"
+#include "../libs/string.h"
+#include "pit.h"
+#include "commands.h"
 
 void kernel_main()
 {
