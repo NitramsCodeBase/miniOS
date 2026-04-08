@@ -1,31 +1,31 @@
 #include "libs/io.h"
 #include "libs/pit.h"
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+// typedef unsigned char  u8;
+// typedef unsigned short u16;
+// typedef unsigned int   u32;
 
-#define VGA_MEMORY ((u16*)0xB8000)
-#define VGA_WIDTH 80
-#define VGA_HEIGHT 25
-#define WHITE_ON_BLACK 0x0F
+// #define VGA_MEMORY ((u16*)0xB8000)
+// #define VGA_WIDTH 80
+// #define VGA_HEIGHT 25
+// #define WHITE_ON_BLACK 0x0F
 
-static int cursor_row = 0;
-static int cursor_col = 0;
-static u8 color = WHITE_ON_BLACK;
+// static int cursor_row = 0;
+// static int cursor_col = 0;
+// static u8 color = WHITE_ON_BLACK;
 
-static char input_buffer[128];
-static int input_len = 0;
+// static char input_buffer[128];
+// static int input_len = 0;
 
-static void move_cursor()
-{
-    u16 pos = (u16)(cursor_row * VGA_WIDTH + cursor_col);
+// static void move_cursor()
+// {
+//     u16 pos = (u16)(cursor_row * VGA_WIDTH + cursor_col);
 
-    outb(0x3D4, 0x0F);
-    outb(0x3D5, (u8)(pos & 0xFF));
-    outb(0x3D4, 0x0E);
-    outb(0x3D5, (u8)((pos >> 8) & 0xFF));
-}
+//     outb(0x3D4, 0x0F);
+//     outb(0x3D5, (u8)(pos & 0xFF));
+//     outb(0x3D4, 0x0E);
+//     outb(0x3D5, (u8)((pos >> 8) & 0xFF));
+// }
 
 static void clear_screen()
 {
