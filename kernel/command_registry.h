@@ -7,5 +7,6 @@ typedef struct {
 } Command; 
 
 void execute_command(const char* input);
+void cmd_execute_mini();
 
 #endif

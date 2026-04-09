@@ -18,10 +18,15 @@ void shell_execute(const char* cmd)
         println("draw     - draws a square on the screen");
         println("reboot   - reboot machine");
         println("shutdown - shutdown the machine");
+        println("mini     - starts the gui interface");
     }
     else if (strcmp(cmd, "clear") == 0 || strcmp(cmd, "cls") == 0)
     {
         clear_screen();
+    }
+    else if (strcmp(cmd, "mini") == 0) 
+    {
+        cmd_execute_mini();
     }
     else if (starts_with(cmd, "draw ")) 
     {

@@ -1,6 +1,7 @@
 #include "io.h"
 #include <string.h>
 #include "command_registry.h"
+#include "./apis/graphics_api.h"
 
 Command cmd;
 
@@ -25,6 +26,14 @@ void cmd_help(const char *args)
         println("draw     - draws a square on the screen");
         println("reboot   - reboot machine");
         println("shutdown - shutdown the machine");
+}
+
+void cmd_execute_mini() 
+{
+    println("Starting mini...");
+    
+    graphics_enable();
+    draw_mini_screen();
 }
 
 Command commands[] = {
