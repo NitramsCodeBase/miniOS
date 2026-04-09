@@ -1,6 +1,7 @@
-#include "commands.h"
 #include "io.h"
-#include "string.h"
+#include "commands.h"
+#include "../libs/graphic.h"
+#include "../libs/string.h"
 
 void execute_command(const char* cmd)
 {
@@ -12,6 +13,7 @@ void execute_command(const char* cmd)
         println("about    - show system info");
         println("echo     - echo text");
         println("mem      - shows memory information");
+        println("draw     - draws a square on the screen");
         println("reboot   - reboot machine");
         println("shutdown - shutdown the machine");
     }
@@ -19,14 +21,22 @@ void execute_command(const char* cmd)
     {
         clear_screen();
     }
+    else if (starts_with(cmd, "draw ")) 
+    {
+        const char *arguments = cmd + 5;
+        
+        draw_square();
+    }
     else if (strcmp(cmd, "about") == 0 || strcmp(cmd, "ver") == 0)
     {
         println("miniOS 32-bit Kernel 1.0");
         println("Protected Mode active");
+        println("Developed by Martin Steinkasserer, for testing purposes.");
     }
     else if (starts_with(cmd, "echo "))
     {
-        println(cmd + 5);
+        const char *message = cmd + 5;
+        println(message);
     }
     else if (strcmp(cmd, "reboot") == 0)
     {

@@ -1,5 +1,4 @@
 #include "io.h"
-#include "../libs/string.h"
 #include "pit.h"
 #include "commands.h"
 
@@ -9,7 +8,7 @@ void kernel_main()
 
     pit_init(1000);
 
-    println("miniOS 32-bit");
+    println("miniOS");
     println("Type 'help' for commands.");
     put_char('\n');
     prompt();

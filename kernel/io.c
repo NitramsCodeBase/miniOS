@@ -18,6 +18,19 @@ void move_cursor()
     outb(0x3D5, (u8)((pos >> 8) & 0xFF));
 }
 
+void move_cursor_to(int x, int y)
+{
+    cursor_col = x;
+    cursor_row = y;
+
+    u16 pos = (u16)(cursor_row * VGA_WIDTH + cursor_col);
+
+    outb(0x3D4, 0x0F);
+    outb(0x3D5, (u8)(pos & 0xFF));
+    outb(0x3D4, 0x0E);
+    outb(0x3D5, (u8)((pos >> 8) & 0xFF));
+}
+
 void clear_screen()
 {
     for (int y = 0; y < VGA_HEIGHT; y++)
@@ -215,3 +228,16 @@ void print_number(int num)
         put_char(buffer[i]);
     }
 }
+
+// int atoi(const char *str)
+// {
+//     int result = 0;
+
+//     while (*str >= '0' && *str <= '9')
+//     {
+//         result = result * 10 + (*str - '0');
+//         str++;
+//     }
+
+//     return result;
+// }

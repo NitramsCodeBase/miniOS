@@ -32,6 +32,7 @@ static inline void outb(u16 port, u8 value)
 }
 
 void move_cursor();
+void move_cursor_to(int x, int y);
 void clear_screen();
 void scroll();
 void put_char(char c);
@@ -44,5 +45,6 @@ char scancode_to_ascii(u8 sc);
 void reboot();
 void exit_qemu();
 void print_number(int num);
+// void atoi(const char *str);
 
 #endif
