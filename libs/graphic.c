@@ -1,38 +1,26 @@
 #include "graphic.h"
 #include "../kernel/io.h"
 
-void draw_square()
+void draw_square(int width, int height)
 {
+    if (width > VGA_WIDTH || height > VGA_HEIGHT) 
+    {
+        println("Error: Your arguments are out of bound.");
+        return;
+    }
+
     clear_screen();
 
-    for (int y = 0; y < 5; y++)
+    for (int y = 0; y < height; y++)
     {
-        for (int x = 0; x < 5; x++)
+        for (int x = 0; x < width; x++)
         {
             move_cursor_to(x, y);
-            print("*");
+
+            if ((y == 0 || y == height - 1 && x <= width) || (x == 0 || x == width - 1 && y <= height)) 
+            {
+                print("*");
+            }
         }
     }
 }
-
-// void draw_square(int size)
-// {
-//     clear_screen();
-
-//     for (int y = 0; y < size; y++)
-//     {
-//         for (int x = 0; x < size; x++)
-//         {
-//             move_cursor_to(x, y);
-
-//             if (x == 0 || x == size - 1 || y == 0 || y == size - 1)
-//             {
-//                 print("*");
-//             }
-//             else
-//             {
-//                 print(" ");
-//             }
-//         }
-//     }
-// }

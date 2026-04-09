@@ -1,5 +1,6 @@
 #include "io.h"
 #include "commands.h"
+#include "pit.h"
 #include "../libs/graphic.h"
 #include "../libs/string.h"
 
@@ -23,9 +24,15 @@ void execute_command(const char* cmd)
     }
     else if (starts_with(cmd, "draw ")) 
     {
-        const char *arguments = cmd + 5;
-        
-        draw_square();
+        const char *args = cmd + 5;
+        int values[2];
+
+        read_arguments(args, values, sizeof(values));
+
+        draw_square(values[0], values[1]);
+
+        println("\n");
+        printf("Your square was drawn successfully with\nWidth : %d\nHeight : %d\n", values[0], values[1]);
     }
     else if (strcmp(cmd, "about") == 0 || strcmp(cmd, "ver") == 0)
     {

@@ -1,5 +1,6 @@
 #include "io.h"
 #include "string.h"
+#include <stdarg.h>
 
 int cursor_row = 0;
 int cursor_col = 0;
@@ -159,49 +160,67 @@ char scancode_to_ascii(u8 sc)
 {
     switch (sc)
     {
-        case 0x02: return '1';
-        case 0x03: return '2';
-        case 0x04: return '3';
-        case 0x05: return '4';
-        case 0x06: return '5';
-        case 0x07: return '6';
-        case 0x08: return '7';
-        case 0x09: return '8';
-        case 0x0A: return '9';
-        case 0x0B: return '0';
+        case 0x02: return shift_pressed ? '!' : '1';
+        case 0x03: return shift_pressed ? '"' : '2';
+        case 0x04: return shift_pressed ? 0   : '3'; // § erstmal weggelassen
+        case 0x05: return shift_pressed ? '$' : '4';
+        case 0x06: return shift_pressed ? '%' : '5';
+        case 0x07: return shift_pressed ? '&' : '6';
+        case 0x08: return shift_pressed ? '/' : '7';
+        case 0x09: return shift_pressed ? '(' : '8';
+        case 0x0A: return shift_pressed ? ')' : '9';
+        case 0x0B: return shift_pressed ? '=' : '0';
 
-        case 0x10: return 'q';
-        case 0x11: return 'w';
-        case 0x12: return 'e';
-        case 0x13: return 'r';
-        case 0x14: return 't';
-        case 0x15: return 'y';
-        case 0x16: return 'u';
-        case 0x17: return 'i';
-        case 0x18: return 'o';
-        case 0x19: return 'p';
+        // case 0x0C: return shift_pressed ? '?' : 'ß';
 
-        case 0x1E: return 'a';
-        case 0x1F: return 's';
-        case 0x20: return 'd';
-        case 0x21: return 'f';
-        case 0x22: return 'g';
-        case 0x23: return 'h';
-        case 0x24: return 'j';
-        case 0x25: return 'k';
-        case 0x26: return 'l';
+        case 0x0D: return shift_pressed ? '`' : 0;
 
-        case 0x2C: return 'z';
-        case 0x2D: return 'x';
-        case 0x2E: return 'c';
-        case 0x2F: return 'v';
-        case 0x30: return 'b';
-        case 0x31: return 'n';
-        case 0x32: return 'm';
+        case 0x10: return shift_pressed ? 'Q' : 'q';
+        case 0x11: return shift_pressed ? 'W' : 'w';
+        case 0x12: return shift_pressed ? 'E' : 'e';
+        case 0x13: return shift_pressed ? 'R' : 'r';
+        case 0x14: return shift_pressed ? 'T' : 't';
+        case 0x15: return shift_pressed ? 'Z' : 'z'; // DE!
+        case 0x16: return shift_pressed ? 'U' : 'u';
+        case 0x17: return shift_pressed ? 'I' : 'i';
+        case 0x18: return shift_pressed ? 'O' : 'o';
+        case 0x19: return shift_pressed ? 'P' : 'p';
+
+        case 0x1A: return shift_pressed ? '*' : '+'; // DE: + und *
+        case 0x1B: return shift_pressed ? '\'' : '#'; // DE: # und '
+
+        case 0x1E: return shift_pressed ? 'A' : 'a';
+        case 0x1F: return shift_pressed ? 'S' : 's';
+        case 0x20: return shift_pressed ? 'D' : 'd';
+        case 0x21: return shift_pressed ? 'F' : 'f';
+        case 0x22: return shift_pressed ? 'G' : 'g';
+        case 0x23: return shift_pressed ? 'H' : 'h';
+        case 0x24: return shift_pressed ? 'J' : 'j';
+        case 0x25: return shift_pressed ? 'K' : 'k';
+        case 0x26: return shift_pressed ? 'L' : 'l';
+
+        case 0x27: return shift_pressed ? ':' : ';';
+        case 0x28: return shift_pressed ? '"' : 0;   // ä/Ä erstmal ausgelassen
+        case 0x29: return shift_pressed ? 0   : '^'; // ^ / ° erstmal reduziert
+
+        case 0x2B: return shift_pressed ? '>' : '<';
+        case 0x2C: return shift_pressed ? 'Y' : 'y'; // DE!
+        case 0x2D: return shift_pressed ? 'X' : 'x';
+        case 0x2E: return shift_pressed ? 'C' : 'c';
+        case 0x2F: return shift_pressed ? 'V' : 'v';
+        case 0x30: return shift_pressed ? 'B' : 'b';
+        case 0x31: return shift_pressed ? 'N' : 'n';
+        case 0x32: return shift_pressed ? 'M' : 'm';
+
+        case 0x33: return shift_pressed ? ';' : ',';
+        case 0x34: return shift_pressed ? ':' : '.';
+        case 0x35: return shift_pressed ? '_' : '-';
 
         case 0x39: return ' ';
-        case 0x0C: return '-';
-        case 0x34: return '.';
+        case 0x1C: return '\n';
+        case 0x0E: return '\b';
+        case 0x0F: return '\t';
+
         default:   return 0;
     }
 }
@@ -265,4 +284,68 @@ int atoi(const char *str)
     }
 
     return result;
+}
+
+void read_arguments(const char *args, int out[], int count)
+{
+     const char* p = args;
+
+    for (int i = 0; i < count; i++)
+    {
+        // Zahl lesen
+        int value = 0;
+
+        while (*p == ' ') p++;
+
+        while (*p >= '0' && *p <= '9')
+        {
+            value = value * 10 + (*p - '0');
+            p++;
+        }
+
+        out[i] = value;
+    }
+}
+
+void printf(const char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    while (*format)
+    {
+        if (*format == '%')
+        {
+            format++;
+
+            if (*format == 'd')
+            {
+                int value = va_arg(args, int);
+                print_number(value);
+            }
+            else if (*format == 's')
+            {
+                char* str = va_arg(args, char*);
+                print(str);
+            }
+            else if (*format == 'c')
+            {
+                char c = (char)va_arg(args, int);
+                put_char(c);
+            }
+            else
+            {
+                put_char('%');
+                put_char(*format);
+            }
+        }
+        else
+        {
+            put_char(*format);
+        }
+
+        format++;
+    }
+
+    va_end(args);
 }
