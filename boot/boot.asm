@@ -41,7 +41,7 @@ continue_boot:
     ; Load kernel to 0x1000
     mov bx, 0x1000
     mov ah, 0x02
-    mov al, 33
+    mov al, 33 ; disk sectors to read
     mov ch, 0
     mov cl, 2
     mov dh, 0
