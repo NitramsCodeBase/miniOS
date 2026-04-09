@@ -19,7 +19,7 @@ start:
     ; Kernel nach 0x1000 laden
     mov bx, 0x1000
     mov ah, 0x02
-    mov al, 32          ; Anzahl Sektoren kernel.bin / 512 
+    mov al, 33          ; Anzahl Sektoren kernel.bin / 512 
     mov ch, 0
     mov cl, 2
     mov dh, 0
