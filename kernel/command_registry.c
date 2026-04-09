@@ -1,4 +1,5 @@
 #include "io.h"
+#include "system.h"
 #include <string.h>
 #include "command_registry.h"
 #include "./apis/graphics_api.h"
@@ -30,10 +31,8 @@ void cmd_help(const char *args)
 
 void cmd_execute_mini() 
 {
-    println("Starting mini...");
-    
-    graphics_enable();
-    draw_mini_screen();
+    *BOOT_REQUEST_ADDR = BOOT_MODE_GUI;
+    reboot();
 }
 
 Command commands[] = {

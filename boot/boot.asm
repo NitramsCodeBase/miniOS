@@ -4,6 +4,12 @@ ORG 0x7C00
 CODE_SEG equ 0x08
 DATA_SEG equ 0x10
 
+BOOT_REQUEST equ 0x0500
+BOOT_ACTIVE  equ 0x0501
+
+BOOT_MODE_TEXT equ 0
+BOOT_MODE_GUI  equ 1
+
 start:
     cli
     xor ax, ax
@@ -12,14 +18,30 @@ start:
     mov ss, ax
     mov sp, 0x7C00
 
-    ; Textmodus 80x25
+    ; Read requested boot mode
+    mov al, [BOOT_REQUEST]
+    cmp al, BOOT_MODE_GUI
+    je gui_mode
+
+text_mode:
     mov ax, 0x0003
     int 0x10
+    mov byte [BOOT_ACTIVE], BOOT_MODE_TEXT
+    jmp continue_boot
 
-    ; Kernel nach 0x1000 laden
+gui_mode:
+    mov ax, 0x0013
+    int 0x10
+    mov byte [BOOT_ACTIVE], BOOT_MODE_GUI
+
+continue_boot:
+    ; Clear request so next reboot defaults unless kernel sets it again
+    mov byte [BOOT_REQUEST], BOOT_MODE_TEXT
+
+    ; Load kernel to 0x1000
     mov bx, 0x1000
     mov ah, 0x02
-    mov al, 33          ; Anzahl Sektoren kernel.bin / 512 
+    mov al, 33
     mov ch, 0
     mov cl, 2
     mov dh, 0
@@ -27,29 +49,36 @@ start:
     int 0x13
     jc disk_error
 
-    ; A20 aktivieren
+    ; Enable A20
     call enable_a20
 
-    ; GDT laden
+    ; Load GDT
     lgdt [gdt_descriptor]
 
-    ; Protected Mode aktivieren
+    ; Enable protected mode
     mov eax, cr0
     or eax, 1
     mov cr0, eax
 
-    ; Far jump in 32-bit Code
+    ; Far jump into 32-bit mode
     jmp CODE_SEG:protected_mode
 
 disk_error:
     mov si, disk_error_msg
-.print:
+
+print_error:
     lodsb
     or al, al
-    jz $
+    jz halt
     mov ah, 0x0E
     int 0x10
-    jmp .print
+    jmp print_error
+
+halt:
+    cli
+.hang:
+    hlt
+    jmp .hang
 
 enable_a20:
     in al, 0x92

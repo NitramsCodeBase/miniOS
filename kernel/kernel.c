@@ -1,10 +1,19 @@
 #include "io.h"
 #include "pit.h"
 #include "shell.h"
+#include "system.h"
+#include "./apis/graphics_api.h"
 
 void kernel_main()
 {
     clear_screen();
+
+    unsigned char active = *BOOT_ACTIVE_ADDR;
+
+    if (active == BOOT_MODE_GUI) 
+    {
+        draw_mini_screen();
+    }
 
     pit_init(1000);
 

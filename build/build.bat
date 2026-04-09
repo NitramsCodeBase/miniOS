@@ -12,10 +12,10 @@ gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/pit
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/io.c -o io.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/shell.c -o shell.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/command_registry.c -o command_registry.o
+gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/system.c -o system.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../libs/string.c -o string.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../libs/graphic.c -o graphic.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/graphics_api.c -o graphics_api.o
-
 
 @REM rem linking... add .o files to the command list
 
@@ -28,7 +28,8 @@ gcc -m32 -nostdlib -Wl,-T,../linker/linker.ld -Wl,-e,_start -o kernel.exe ^
  command_registry.o ^
  string.o ^
  graphic.o ^
- graphics_api.o
+ graphics_api.o ^
+ system.o
 
 objcopy -O binary kernel.exe kernel.bin
 copy /b boot.bin+kernel.bin miniOS.img
