@@ -4,7 +4,10 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
+typedef int boolean;
 
+#define true 1
+#define false 0
 #define VGA_MEMORY ((u16*)0xB8000)
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25

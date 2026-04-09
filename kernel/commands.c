@@ -24,12 +24,26 @@ void execute_command(const char* cmd)
     }
     else if (starts_with(cmd, "draw ")) 
     {
-        const char *args = cmd + 5;
         int values[2];
 
-        read_arguments(args, values, sizeof(values));
+        read_arguments(cmd + 5, values, sizeof(values));
+        boolean success = draw_square(values[0], values[1]);
 
-        draw_square(values[0], values[1]);
+        if(!success) 
+            return;
+
+        println("\n");
+        printf("Your square was drawn successfully with\nWidth : %d\nHeight : %d\n", values[0], values[1]);
+    }
+    else if (starts_with(cmd, "drawfilled "))
+    {
+        int values[2];
+
+        read_arguments(cmd + 11, values, sizeof(values));
+        boolean success = draw_filled_square(values[0], values[1]);
+
+        if(!success) 
+            return;
 
         println("\n");
         printf("Your square was drawn successfully with\nWidth : %d\nHeight : %d\n", values[0], values[1]);
