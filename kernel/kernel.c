@@ -1,6 +1,6 @@
 #include "io.h"
 #include "pit.h"
-#include "commands.h"
+#include "shell.h"
 
 void kernel_main()
 {
@@ -27,7 +27,7 @@ void kernel_main()
         {
             put_char('\n');
             input_buffer[input_len] = '\0';
-            execute_command(input_buffer);
+            shell_execute(input_buffer);
             input_len = 0;
             prompt();
         }

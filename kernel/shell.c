@@ -1,10 +1,11 @@
 #include "io.h"
-#include "commands.h"
+#include "shell.h"
 #include "pit.h"
-#include "../libs/graphic.h"
+#include "command_registry.h"
 #include "../libs/string.h"
+#include "../libs/graphic.h"
 
-void execute_command(const char* cmd)
+void shell_execute(const char* cmd)
 {
     if (strcmp(cmd, "help") == 0)
     {
@@ -27,26 +28,16 @@ void execute_command(const char* cmd)
         int values[2];
 
         read_arguments(cmd + 5, values, sizeof(values));
-        boolean success = draw_square(values[0], values[1]);
-
-        if(!success) 
-            return;
-
-        println("\n");
-        printf("Your square was drawn successfully with\nWidth : %d\nHeight : %d\n", values[0], values[1]);
+        draw_square(values[0], values[1]);
+        println("");
     }
     else if (starts_with(cmd, "drawfilled "))
     {
         int values[2];
 
         read_arguments(cmd + 11, values, sizeof(values));
-        boolean success = draw_filled_square(values[0], values[1]);
-
-        if(!success) 
-            return;
-
-        println("\n");
-        printf("Your square was drawn successfully with\nWidth : %d\nHeight : %d\n", values[0], values[1]);
+        draw_filled_square(values[0], values[1]);
+        println("");
     }
     else if (strcmp(cmd, "about") == 0 || strcmp(cmd, "ver") == 0)
     {
@@ -92,10 +83,6 @@ void execute_command(const char* cmd)
         if(strcmp(cmd, "") == 0)
             return;
 
-        char buffer[256];
-        strcpy(buffer, "Unknown command: ");
-        strcat(buffer, cmd);
-
-        println(buffer);
+        printf("Unknown command: %s\n", cmd);
     }
 }
