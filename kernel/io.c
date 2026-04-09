@@ -8,6 +8,20 @@ u8 color = WHITE_ON_BLACK;
 char input_buffer[128];
 int input_len = 0;
 
+int shift_pressed = 0;
+
+u8 inb(u16 port)
+{
+    u8 result;
+    __asm__ volatile ("inb %1, %0" : "=a"(result) : "Nd"(port));
+    return result;
+}
+
+void outb(u16 port, u8 value)
+{
+    __asm__ volatile ("outb %0, %1" : : "a"(value), "Nd"(port));
+}
+
 void move_cursor()
 {
     u16 pos = (u16)(cursor_row * VGA_WIDTH + cursor_col);
@@ -192,6 +206,17 @@ char scancode_to_ascii(u8 sc)
     }
 }
 
+void handle_shift(u8 sc)
+{
+    // Shift gedrückt
+    if (sc == 0x2A || sc == 0x36)
+        shift_pressed = 1;
+
+    // Shift losgelassen
+    if (sc == 0xAA || sc == 0xB6)
+        shift_pressed = 0;
+}
+
 void reboot()
 {
     outb(0x64, 0xFE);
@@ -229,15 +254,15 @@ void print_number(int num)
     }
 }
 
-// int atoi(const char *str)
-// {
-//     int result = 0;
+int atoi(const char *str)
+{
+    int result = 0;
 
-//     while (*str >= '0' && *str <= '9')
-//     {
-//         result = result * 10 + (*str - '0');
-//         str++;
-//     }
+    while (*str >= '0' && *str <= '9')
+    {
+        result = result * 10 + (*str - '0');
+        str++;
+    }
 
-//     return result;
-// }
+    return result;
+}

@@ -3,8 +3,6 @@
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
-typedef unsigned char  u8;
-typedef unsigned short u16;
 typedef unsigned int   u32;
 
 #define VGA_MEMORY ((u16*)0xB8000)
@@ -19,18 +17,10 @@ extern u8 color;
 extern char input_buffer[128];
 extern int input_len;
 
-static inline u8 inb(u16 port)
-{
-    u8 result;
-    __asm__ volatile ("inb %1, %0" : "=a"(result) : "Nd"(port));
-    return result;
-}
+extern int shift_pressed;
 
-static inline void outb(u16 port, u8 value)
-{
-    __asm__ volatile ("outb %0, %1" : : "a"(value), "Nd"(port));
-}
-
+u8 inb(u16 port);
+void outb(u16 port, u8 value);
 void move_cursor();
 void move_cursor_to(int x, int y);
 void clear_screen();
@@ -42,9 +32,10 @@ int starts_with(const char* str, const char* prefix);
 void prompt();
 void backspace();
 char scancode_to_ascii(u8 sc);
+void handle_shift(u8 sc);
 void reboot();
 void exit_qemu();
 void print_number(int num);
-// void atoi(const char *str);
+int atoi(const char *str);
 
 #endif
