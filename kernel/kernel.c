@@ -12,7 +12,22 @@ void kernel_main()
 
     if (active == BOOT_MODE_GUI) 
     {
+        graphics_init((u8*)0xA0000, 320, 200, 320);
+        graphics_enable();
         draw_mini_screen();
+
+        while(1) 
+        {
+            u8 sc = inb(0x60);
+
+            if (sc == 0x01) 
+            {
+                break;
+            }
+        }
+
+        *BOOT_REQUEST_ADDR = BOOT_MODE_TEXT;
+        reboot();
     }
 
     pit_init(1000);
