@@ -3,6 +3,8 @@
 
 #define BOOT_REQUEST_ADDR ((volatile unsigned char*)0x0500)
 #define BOOT_ACTIVE_ADDR  ((volatile unsigned char*)0x0501)
+#define OS_ACTIVE  ((volatile unsigned char*)0x0502)
+
 #define BOOT_MODE_TEXT 0
 #define BOOT_MODE_GUI  1
 

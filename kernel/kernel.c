@@ -27,6 +27,8 @@ void kernel_main()
         }
 
         *BOOT_REQUEST_ADDR = BOOT_MODE_TEXT;
+        *OS_ACTIVE = 1;
+        
         reboot();
     }
 

@@ -61,3 +61,8 @@ void execute_command(const char *input)
 
     println("Unknown command");
 }
+
+void call_command_time(const char* args)
+{
+    printf("Current time %d:%d:%d\n", 10, 30, 15);
+}

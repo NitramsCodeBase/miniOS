@@ -8,5 +8,6 @@ typedef struct {
 
 void execute_command(const char* input);
 void cmd_execute_mini();
+void call_command_time(const char* args);
 
 #endif

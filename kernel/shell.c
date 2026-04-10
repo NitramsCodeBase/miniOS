@@ -16,9 +16,14 @@ void shell_execute(const char* cmd)
         println("echo     - echo text");
         println("mem      - shows memory information");
         println("draw     - draws a square on the screen");
+        println("time     - shows the current time.");
         println("reboot   - reboot machine");
         println("shutdown - shutdown the machine");
         println("mini     - starts the gui interface");
+    }
+    else if (strcmp(cmd, "time") == 0) 
+    {
+        call_command_time("");
     }
     else if (strcmp(cmd, "clear") == 0 || strcmp(cmd, "cls") == 0)
     {
