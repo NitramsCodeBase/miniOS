@@ -3,6 +3,7 @@
 #include <string.h>
 #include "command_registry.h"
 #include "./apis/graphics_api.h"
+#include "./apis/time.h"
 
 Command cmd;
 
@@ -64,5 +65,5 @@ void execute_command(const char *input)
 
 void call_command_time(const char* args)
 {
-    printf("Current time %d:%d:%d\n", 10, 30, 15);
+    print_time();
 }
