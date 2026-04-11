@@ -43,4 +43,4 @@ del *.exe
 
 @echo starting ...
 
-./run.bat
+@REM ./run.bat

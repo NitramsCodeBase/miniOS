@@ -44,8 +44,8 @@ void reboot();
 void exit_qemu();
 void print_number(int num);
 int atoi(const char *str);
-void read_arguments_char(const char *args, char* out[], int count);
 void read_arguments(const char *args, int out[], int count);
 void printf(const char* format, ...);
+void split(const char *args, char seperator, char *out[]);
 
 #endif

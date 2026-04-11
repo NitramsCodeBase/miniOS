@@ -90,7 +90,12 @@ void call_command_color(const char *args)
     };
 
     boolean found = false;
-    int count = sizeof(colors) / sizeof(colors[0]);    
+    int count = sizeof(colors) / sizeof(colors[0]);
+    char *parameters[2];
+
+    split(args, ' ', parameters);
+
+    printf("Setting background to %s and foreground to %s\n", parameters[0], parameters[1]);
 
     for (int i = 0; i < count; i++)
     {
