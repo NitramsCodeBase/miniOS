@@ -1,6 +1,7 @@
 #include "io.h"
 #include "shell.h"
 #include "pit.h"
+#include "system.h"
 #include "command_registry.h"
 #include "../libs/string.h"
 #include "../libs/graphic.h"
@@ -61,7 +62,7 @@ void shell_execute(const char* cmd)
     }
     else if (strcmp(cmd, "reboot") == 0)
     {
-        println("Rebooting...");
+        *OS_ACTIVE = 0;
         reboot();
     }
     else if (strcmp(cmd, "shutdown") == 0)

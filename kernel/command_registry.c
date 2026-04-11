@@ -78,37 +78,22 @@ void call_command_color(const char *args)
         "red",          // 0x4
         "magenta",      // 0x5
         "brown",        // 0x6
-        "light_gray",   // 0x7
-        "dark_gray",    // 0x8
-        "light_blue",   // 0x9
-        "light_green",  // 0xA
-        "light_cyan",   // 0xB
-        "light_red",    // 0xC
-        "light_magenta",// 0xD
+        "lightgray",   // 0x7
+        "darkgray",    // 0x8
+        "lightblue",   // 0x9
+        "lightgreen",  // 0xA
+        "lightcyan",   // 0xB
+        "lightred",    // 0xC
+        "lightmagenta",// 0xD
         "yellow",       // 0xE
         "white"         // 0xF
     };
 
     boolean found = false;
-    int count = sizeof(colors) / sizeof(colors[0]);
     char *parameters[2];
 
     split(args, ' ', parameters);
 
-    printf("Setting background to %s and foreground to %s\n", parameters[0], parameters[1]);
+    
 
-    for (int i = 0; i < count; i++)
-    {
-        const char *current_color = colors[i];
-
-        if (strcmp(args, current_color) == 0)
-        {
-            printf("Color is set to %s\n", current_color);
-            found = true;
-            break;
-        }
-    }
-
-    if (!found)
-        println("Color is not defined!");
 }
