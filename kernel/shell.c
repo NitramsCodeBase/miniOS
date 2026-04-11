@@ -7,25 +7,28 @@
 
 void shell_execute(const char* cmd)
 {
+    int values[2];
+
     if (strcmp(cmd, "help") == 0)
     {
         println("Commands:");
-        println("help     - show commands");
-        println("clear    - clear screen");
-        println("about    - show system info");
-        println("echo     - echo text");
-        println("mem      - shows memory information");
-        println("draw     - draws a square on the screen");
-        println("time     - shows the current time.");
-        println("reboot   - reboot machine");
-        println("shutdown - shutdown the machine");
-        println("mini     - starts the gui interface");
+        println("help       - show commands");
+        println("cls        - clear screen");
+        println("ver        - show system info");
+        println("echo       - echo text");
+        println("mem        - shows memory information");
+        println("draw       - draws a square on the screen");
+        println("drawfilled - draws a filled square on the screen");
+        println("time       - shows the current time.");
+        println("mini       - starts the gui interface");
+        println("reboot     - reboot machine");
+        println("shutdown   - shutdown the machine");
     }
     else if (strcmp(cmd, "time") == 0) 
     {
-        call_command_time("");
+        call_command_time(cmd + 4);
     }
-    else if (strcmp(cmd, "clear") == 0 || strcmp(cmd, "cls") == 0)
+    else if (strcmp(cmd, "cls") == 0)
     {
         clear_screen();
     }
@@ -35,23 +38,19 @@ void shell_execute(const char* cmd)
     }
     else if (starts_with(cmd, "draw ")) 
     {
-        int values[2];
-
         read_arguments(cmd + 5, values, sizeof(values));
         draw_square(values[0], values[1]);
         println("");
     }
     else if (starts_with(cmd, "drawfilled "))
     {
-        int values[2];
-
         read_arguments(cmd + 11, values, sizeof(values));
         draw_filled_square(values[0], values[1]);
         println("");
     }
-    else if (strcmp(cmd, "about") == 0 || strcmp(cmd, "ver") == 0)
+    else if (strcmp(cmd, "ver") == 0)
     {
-        println("miniOS 32-bit Kernel 1.0");
+        println("miniSHELL 32-bit Kernel 1.0");
         println("Protected Mode active");
         println("Developed by Martin Steinkasserer, for testing purposes.");
     }
@@ -65,10 +64,14 @@ void shell_execute(const char* cmd)
         println("Rebooting...");
         reboot();
     }
-    else if (strcmp(cmd, "shutdown") == 0 || strcmp(cmd, "exit") == 0)
+    else if (strcmp(cmd, "shutdown") == 0)
     {
         println("Shutting down...");
         exit_qemu();
+    }
+    else if (starts_with(cmd, "color ")) 
+    {
+        call_command_color(cmd + 6);
     }
     else if (strcmp(cmd, "mem") == 0) 
     {

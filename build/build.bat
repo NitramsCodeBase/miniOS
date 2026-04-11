@@ -18,7 +18,6 @@ gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../libs/graph
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/graphics_api.c -o graphics_api.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/time.c -o time.o
 
-
 @REM rem linking... add .o files to the command list
 
 gcc -m32 -nostdlib -Wl,-T,../linker/linker.ld -Wl,-e,_start -o kernel.exe ^

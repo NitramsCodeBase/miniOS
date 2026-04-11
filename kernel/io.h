@@ -11,7 +11,11 @@ typedef int boolean;
 #define VGA_MEMORY ((u16*)0xB8000)
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
-#define WHITE_ON_BLACK 0x0F
+
+#define WHITE_ON_BLACK      0x0F
+#define WHITE_ON_BLUE       0x1F
+#define WHITE_ON_GREEN      0x2F
+#define LIGHTGRAY_ON_BLACK  0x07
 
 extern int cursor_row;
 extern int cursor_col;
@@ -40,6 +44,7 @@ void reboot();
 void exit_qemu();
 void print_number(int num);
 int atoi(const char *str);
+void read_arguments_char(const char *args, char* out[], int count);
 void read_arguments(const char *args, int out[], int count);
 void printf(const char* format, ...);
 

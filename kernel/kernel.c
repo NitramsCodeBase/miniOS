@@ -34,7 +34,7 @@ void kernel_main()
 
     pit_init(1000);
 
-    println("miniOS");
+    println("miniSHELL");
     println("Type 'help' for commands.");
     put_char('\n');
     prompt();

@@ -1,17 +1,17 @@
 BITS 16
 ORG 0x7C00
 
-CODE_SEG         equ 0x08
-DATA_SEG         equ 0x10
-SECTORS_TO_READ  equ 33
+CODE_SEG            equ 0x08
+DATA_SEG            equ 0x10
+SECTORS_TO_READ     equ 41
 
-BOOT_REQUEST     equ 0x0500
-BOOT_ACTIVE      equ 0x0501
-OS_ACTIVE        equ 0x05002
-BOOT_TIMER_DELAY equ 0x6111
+BOOT_REQUEST        equ 0x0500
+BOOT_ACTIVE         equ 0x0501
+OS_ACTIVE           equ 0x0502
+BOOT_TIMER_DELAY    equ 0x6111
 
-BOOT_MODE_TEXT   equ 0
-BOOT_MODE_GUI    equ 1
+BOOT_MODE_TEXT      equ 0
+BOOT_MODE_GUI       equ 1
 
 start:
     cli
@@ -33,13 +33,29 @@ text_mode:
     mov al, [OS_ACTIVE]
     cmp al, 0
     je show_boot_message
-    jmp continue_boot
+    jmp continue_boot   
 
 gui_mode:
+    mov si, boot_mini_gui_msg
+    jmp .print_boot
+
+.continue_boot:
     mov ax, 0x0013
     int 0x10
     mov byte [BOOT_ACTIVE], BOOT_MODE_GUI
     jmp continue_boot
+
+.print_boot:
+    lodsb
+    or al, al
+    jz .boot_delay
+    mov ah, 0x0E
+    int 0x10
+    jmp .print_boot
+
+.boot_delay:
+    call delay_2s
+    jmp gui_mode.continue_boot
 
 show_boot_message:
     ; Show boot message
@@ -135,8 +151,9 @@ gdt_descriptor:
     dw gdt_end - gdt_start - 1
     dd gdt_start
 
-boot_msg db "Booting miniOS ...", 0
-disk_error_msg db "Disk read error!", 0
+boot_msg            db "Booting miniSHELL ...", 0
+boot_mini_gui_msg   db "Booting miniOS ...", 0
+disk_error_msg      db "Disk read error!", 0
 
 BITS 32
 protected_mode:

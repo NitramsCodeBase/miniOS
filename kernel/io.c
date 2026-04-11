@@ -4,7 +4,7 @@
 
 int cursor_row = 0;
 int cursor_col = 0;
-u8 color = WHITE_ON_BLACK;
+u8 color = LIGHTGRAY_ON_BLACK;
 
 char input_buffer[128];
 int input_len = 0;
@@ -284,6 +284,11 @@ int atoi(const char *str)
     }
 
     return result;
+}
+
+void read_arguments_char(const char *args, char* out[], int count) 
+{
+    
 }
 
 void read_arguments(const char *args, int out[], int count)
