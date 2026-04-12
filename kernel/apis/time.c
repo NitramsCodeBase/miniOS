@@ -68,7 +68,7 @@ void print_time()
     
     int hours = (t.hours + 2) % 24;
 
-    print("Current time: ");
+    print("current time: ");
     print_two_digits(hours);
     print(":");
     print_two_digits(t.minutes);

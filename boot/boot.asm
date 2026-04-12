@@ -3,7 +3,7 @@ ORG 0x7C00
 
 CODE_SEG            equ 0x08
 DATA_SEG            equ 0x10
-SECTORS_TO_READ     equ 41
+SECTORS_TO_READ     equ 39
 
 BOOT_REQUEST        equ 0x0500
 BOOT_ACTIVE         equ 0x0501

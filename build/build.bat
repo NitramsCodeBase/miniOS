@@ -3,8 +3,8 @@
 @echo building image ...
 @echo.
 
-nasm -f bin ../boot/boot.asm -o boot.bin >nul
-nasm -f win32 ../boot/kernel_entry.asm -o kernel_entry.obj >nul
+nasm -f bin ../boot/boot.asm -o boot.bin 
+nasm -f win32 ../boot/kernel_entry.asm -o kernel_entry.obj 
 
 @REM rem adding source .c files here
 
