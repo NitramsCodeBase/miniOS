@@ -90,4 +90,6 @@ void call_command_color(const char *args)
         color_code[i] = get_color_code(parameters[i]);
 
     set_color(color_code);
+
+    printf("Color set to %s/%s\n", get_color(color_code[0]), get_color(color_code[1]));
 }
