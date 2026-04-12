@@ -11,7 +11,7 @@ int input_len = 0;
 
 int shift_pressed = 0;
 
-Dictionary colors[] = {
+ColorPalette colors[] = {
     {"black", 0x00},
     {"blue", 0x01},
     {"green", 0x02},
@@ -19,13 +19,13 @@ Dictionary colors[] = {
     {"red", 0x04},
     {"magenta", 0x05},
     {"brown", 0x06},
-    {"light_gray", 0x07},
-    {"dark_gray", 0x08},
-    {"light_blue", 0x09},
-    {"light_green", 0x0A},
-    {"light_cyan", 0x0B},
-    {"light_red", 0x0C},
-    {"light_magenta", 0x0D},
+    {"lightgray", 0x07},
+    {"darkgray", 0x08},
+    {"lightblue", 0x09},
+    {"lightgreen", 0x0A},
+    {"lightcyan", 0x0B},
+    {"lightred", 0x0C},
+    {"lightmagenta", 0x0D},
     {"yellow", 0x0E},
     {"white", 0x0F}
 };
@@ -465,6 +465,11 @@ void printf(const char *format, ...)
     va_end(args);
 }
 
+const char* to_upper(const char* str)
+{
+    return "";
+}
+
 void split(const char *args, char seperator, char *out[])
 {
     char buf[10][64];
@@ -493,7 +498,7 @@ void split(const char *args, char seperator, char *out[])
 int get_color_code(const char *color)
 {
     int len = sizeof(colors) / sizeof(colors[0]);
-    int color_code = 0;
+    int color_code = -1;
 
     for (int i = 0; i < len; i++)
     {

@@ -87,12 +87,39 @@ void call_command_color(const char *args)
 
     int len = sizeof(parameters) / sizeof(parameters[0]);
 
+    if(strcmp(parameters[0], "list") == 0)
+    {
+        for (int i = 0; i < 16; i++) 
+            printf("%s%d. %s\n", i + 1 < 10 ? "0" : "" , i + 1, get_color(i));
+
+        return;
+    }
+
+    if(strcmp(parameters[0], "help") == 0)
+    {
+        println("available commands : list, default");
+        println("");
+        println("list               : lists all available colors for shell mode");
+        println("default            : sets the default color scheme back to normal");
+        println("");
+
+        return;
+    }
+
+    boolean invalid_color = false;
 
     for (int i = 0; i < len; i++) 
         color_code[i] = get_color_code(parameters[i]);
 
+    if (color_code[0] == -1 || color_code[1] == -1) 
+    {
+        println("error: invalid color code!");
+        return;
+    }
+
     set_color(color_code);
 
     clear_screen();
+
     printf("color set to %s/%s\n", get_color(color_code[0]), get_color(color_code[1]));
 }
