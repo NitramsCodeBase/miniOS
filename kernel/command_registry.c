@@ -75,17 +75,9 @@ void call_command_color(const char *args)
     int len = sizeof(parameters) / sizeof(parameters[0]);
 
     int color_code[2];
-    
+
     for (int i = 0; i < len; i++) 
-    {
         color_code[i] = get_color_code(parameters[i]);
-
-        const char *color = get_color(color_code[i]);
-
-        printf("%scolor will be set to %s\n", 
-            i == 0 ? "background" : "text",
-            color);
-    }
 
     set_color(color_code);
 }

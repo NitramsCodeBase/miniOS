@@ -45,6 +45,8 @@ del kernel_entry.obj
 del *.o
 del *.exe
 
+if not exist "./miniOS.img" goto :errornotfound
+
 @echo.
 @echo success
 
@@ -55,4 +57,10 @@ if errorlevel 2 goto :end
 @echo starting ...
 ./run.bat
 
+:errornotfound
+@echo.
+@echo miniOS.img does not exists maybe compile error?
+
 :end
+@echo.
+@echo miniOS is still in development and will be continueid in a period of time.

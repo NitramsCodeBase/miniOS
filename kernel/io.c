@@ -65,6 +65,16 @@ void move_cursor_to(int x, int y)
     outb(0x3D5, (u8)((pos >> 8) & 0xFF));
 }
 
+Cursor get_cursor_pos()
+{
+    Cursor cur;
+
+    cur.x = cursor_col;
+    cur.y = cursor_row;
+
+    return cur;
+}
+
 void clear_screen()
 {
     for (int y = 0; y < VGA_HEIGHT; y++)

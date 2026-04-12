@@ -56,6 +56,11 @@ void kernel_main()
             shell_execute(input_buffer);
             input_len = 0;
             prompt();
+
+            // Cursor cur = get_cursor_pos();
+            // move_cursor_to(75, 0);
+            // printf("%d:%d\n", cur.y, cur.x);
+            // move_cursor_to(cur.x, cur.y);
         }
         else if (sc == 0x0E)
         {

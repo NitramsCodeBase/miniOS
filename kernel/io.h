@@ -11,6 +11,11 @@ typedef struct {
     int value;
 } Dictionary;
 
+typedef struct {
+    int x;
+    int y;
+} Cursor;
+
 #define true 1
 #define false 0
 
@@ -36,6 +41,8 @@ u8 inb(u16 port);
 void outb(u16 port, u8 value);
 void move_cursor();
 void move_cursor_to(int x, int y);
+void update_cursor_pos();
+Cursor get_cursor_pos();
 void clear_screen();
 void scroll();
 void print_hex(unsigned int value);
