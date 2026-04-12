@@ -70,11 +70,21 @@ void call_command_time(const char *args)
 void call_command_color(const char *args)
 {
     char *parameters[2];
-    split(args, ' ', parameters);    
+    int color_code[2];
+    split(args, ' ', parameters);  
+    
+    if(strcmp(parameters[0], "default") == 0)
+    {
+        color_code[0] = 0;
+        color_code[1] = 7;
+
+        set_color(color_code);
+        println("Set default colors");
+        return;
+    }
 
     int len = sizeof(parameters) / sizeof(parameters[0]);
 
-    int color_code[2];
 
     for (int i = 0; i < len; i++) 
         color_code[i] = get_color_code(parameters[i]);
