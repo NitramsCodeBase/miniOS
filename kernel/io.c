@@ -465,9 +465,12 @@ void printf(const char *format, ...)
     va_end(args);
 }
 
-const char* to_upper(const char* str)
+char* to_upper(char *str)
 {
-    return "";
+    for (int i = 0; i < strlen(str); i++) 
+        str[i] = str[i] == ' ' ? ' ' : str[i] - 32;
+
+    return str;
 }
 
 void split(const char *args, char seperator, char *out[])

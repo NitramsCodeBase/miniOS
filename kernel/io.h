@@ -60,7 +60,7 @@ void print_number(int num);
 int atoi(const char *str);
 void read_arguments(const char *args, int out[], int count);
 void printf(const char* format, ...);
-const char* to_upper(const char* str);
+char* to_upper(char *str);
 void split(const char *args, char seperator, char *out[]);
 int get_color_code(const char *color);
 const char* get_color(int color_code);
