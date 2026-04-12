@@ -90,7 +90,7 @@ void call_command_color(const char *args)
     if(strcmp(parameters[0], "list") == 0)
     {
         for (int i = 0; i < 16; i++) 
-            printf("%s%d. %s\n", i + 1 < 10 ? "0" : "" , i + 1, get_color(i));
+            printf("%s\n",get_color(i));
 
         return;
     }
@@ -105,8 +105,6 @@ void call_command_color(const char *args)
 
         return;
     }
-
-    boolean invalid_color = false;
 
     for (int i = 0; i < len; i++) 
         color_code[i] = get_color_code(parameters[i]);
