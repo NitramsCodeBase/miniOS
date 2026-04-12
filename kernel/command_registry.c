@@ -79,7 +79,9 @@ void call_command_color(const char *args)
         color_code[1] = 7;
 
         set_color(color_code);
-        println("Set default colors");
+        
+        clear_screen();
+        println("set default colors");
         return;
     }
 
@@ -91,5 +93,6 @@ void call_command_color(const char *args)
 
     set_color(color_code);
 
-    printf("Color set to %s/%s\n", get_color(color_code[0]), get_color(color_code[1]));
+    clear_screen();
+    printf("color set to %s/%s\n", get_color(color_code[0]), get_color(color_code[1]));
 }
