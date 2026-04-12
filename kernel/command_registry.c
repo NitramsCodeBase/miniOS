@@ -69,31 +69,23 @@ void call_command_time(const char *args)
 
 void call_command_color(const char *args)
 {
-    const char *colors[] =
-    {
-        "black",        // 0x0
-        "blue",         // 0x1
-        "green",        // 0x2
-        "cyan",         // 0x3
-        "red",          // 0x4
-        "magenta",      // 0x5
-        "brown",        // 0x6
-        "lightgray",   // 0x7
-        "darkgray",    // 0x8
-        "lightblue",   // 0x9
-        "lightgreen",  // 0xA
-        "lightcyan",   // 0xB
-        "lightred",    // 0xC
-        "lightmagenta",// 0xD
-        "yellow",       // 0xE
-        "white"         // 0xF
-    };
-
-    boolean found = false;
     char *parameters[2];
+    split(args, ' ', parameters);    
 
-    split(args, ' ', parameters);
+    int len = sizeof(parameters) / sizeof(parameters[0]);
 
+    int color_code[2];
     
+    for (int i = 0; i < len; i++) 
+    {
+        color_code[i] = get_color_code(parameters[i]);
 
+        const char *color = get_color(color_code[i]);
+
+        printf("%scolor will be set to %s\n", 
+            i == 0 ? "background" : "text",
+            color);
+    }
+
+    set_color(color_code);
 }

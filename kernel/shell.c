@@ -14,13 +14,14 @@ void shell_execute(const char* cmd)
     {
         println("Commands:");
         println("help       - show commands");
-        println("cls        - clear screen");
+        println("clear      - clear screen");
         println("ver        - show system info");
         println("echo       - echo text");
         println("mem        - shows memory information");
         println("draw       - draws a square on the screen");
         println("drawfilled - draws a filled square on the screen");
         println("time       - shows the current time.");
+        println("color x x  - sets the x for back- and x for foreground");
         println("mini       - starts the gui interface");
         println("reboot     - reboot machine");
         println("shutdown   - shutdown the machine");
@@ -29,7 +30,7 @@ void shell_execute(const char* cmd)
     {
         call_command_time(cmd + 4);
     }
-    else if (strcmp(cmd, "cls") == 0)
+    else if (strcmp(cmd, "clear") == 0)
     {
         clear_screen();
     }

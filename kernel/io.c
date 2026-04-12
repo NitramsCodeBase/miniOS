@@ -11,6 +11,25 @@ int input_len = 0;
 
 int shift_pressed = 0;
 
+Dictionary colors[] = {
+    {"black", 0x00},
+    {"blue", 0x01},
+    {"green", 0x02},
+    {"cyan", 0x03},
+    {"red", 0x04},
+    {"magenta", 0x05},
+    {"brown", 0x06},
+    {"light_gray", 0x07},
+    {"dark_gray", 0x08},
+    {"light_blue", 0x09},
+    {"light_green", 0x0A},
+    {"light_cyan", 0x0B},
+    {"light_red", 0x0C},
+    {"light_magenta", 0x0D},
+    {"yellow", 0x0E},
+    {"white", 0x0F}
+};
+
 u8 inb(u16 port)
 {
     u8 result;
@@ -80,6 +99,36 @@ void scroll()
     }
 
     cursor_row = VGA_HEIGHT - 1;
+}
+
+void print_hex(unsigned int value)
+{
+    char buffer[9]; // 8 hex digits + null
+    int i = 0;
+
+    if (value == 0)
+    {
+        put_char('0');
+        return;
+    }
+
+    while (value > 0)
+    {
+        int digit = value % 16;
+
+        if (digit < 10)
+            buffer[i++] = '0' + digit;
+        else
+            buffer[i++] = 'A' + (digit - 10);
+
+        value /= 16;
+    }
+
+    // reverse output
+    for (int j = i - 1; j >= 0; j--)
+    {
+        put_char(buffer[j]);
+    }
 }
 
 void put_char(char c)
@@ -384,6 +433,11 @@ void printf(const char *format, ...)
                 char c = (char)va_arg(args, int);
                 put_char(c);
             }
+            else if (*format == 'X')
+            {
+                unsigned int value = va_arg(args, unsigned int);
+                print_hex(value);
+            }
             else
             {
                 put_char('%');
@@ -424,4 +478,54 @@ void split(const char *args, char seperator, char *out[])
     }
 
     out[k] = 0;
+}
+
+int get_color_code(const char *color)
+{
+    int len = sizeof(colors) / sizeof(colors[0]);
+    int color_code = 0;
+
+    for (int i = 0; i < len; i++)
+    {
+        if (strcmp(color, colors[i].key) == 0)
+        {
+            color_code = colors[i].value;
+            break;
+        }
+    }
+
+    return color_code;
+}
+
+const char* get_color(int color_code)
+{
+    int len = sizeof(colors) / sizeof(colors[0]);
+    const char *color;
+
+    for (int i = 0; i < len; i++)
+    {
+        if (color_code == colors[i].value)
+        {
+            color = colors[i].key;
+            break;
+        }
+    }
+
+    return color;
+}
+
+void set_color(int *color_code)
+{
+    int bg = color_code[0];
+    int fg = color_code[1];
+
+    color = (bg << 4) | fg;
+
+    for (int y = 0; y < VGA_HEIGHT; y++)
+    {
+        for (int x = 0; x < VGA_WIDTH; x++)
+        {
+            VGA_MEMORY[y * VGA_WIDTH + x] = ((u16)color << 8) | ' ';
+        }
+    }
 }

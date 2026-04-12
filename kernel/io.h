@@ -6,8 +6,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int boolean;
 
+typedef struct {
+    const char *key;
+    int value;
+} Dictionary;
+
 #define true 1
 #define false 0
+
 #define VGA_MEMORY ((u16*)0xB8000)
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
@@ -32,6 +38,7 @@ void move_cursor();
 void move_cursor_to(int x, int y);
 void clear_screen();
 void scroll();
+void print_hex(unsigned int value);
 void put_char(char c);
 void print(const char* s);
 void println(const char* s);
@@ -47,5 +54,8 @@ int atoi(const char *str);
 void read_arguments(const char *args, int out[], int count);
 void printf(const char* format, ...);
 void split(const char *args, char seperator, char *out[]);
+int get_color_code(const char *color);
+const char* get_color(int color_code);
+void set_color(int *color_code);
 
 #endif

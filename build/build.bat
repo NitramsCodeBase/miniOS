@@ -1,11 +1,12 @@
 @echo off
 @echo.
 @echo building image ...
+@echo.
 
-nasm -f bin ../boot/boot.asm -o boot.bin
-nasm -f win32 ../boot/kernel_entry.asm -o kernel_entry.obj
+nasm -f bin ../boot/boot.asm -o boot.bin >nul
+nasm -f win32 ../boot/kernel_entry.asm -o kernel_entry.obj >nul
 
-@REM rem adding files here
+@REM rem adding source .c files here
 
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/kernel.c -o kernel.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/pit.c -o pit.o
@@ -34,13 +35,24 @@ gcc -m32 -nostdlib -Wl,-T,../linker/linker.ld -Wl,-e,_start -o kernel.exe ^
  time.o
 
 objcopy -O binary kernel.exe kernel.bin
-copy /b boot.bin+kernel.bin miniOS.img
+copy /b boot.bin+kernel.bin miniOS.img 
+
+@echo.
+@echo deleting temporary build files...
 
 del *.bin
 del kernel_entry.obj
 del *.o
 del *.exe
 
-@echo starting ...
+@echo.
+@echo success
 
-@REM ./run.bat
+choice /c YN /M "Build is completed. Do you want to start it right now?"
+
+if errorlevel 2 goto :end
+
+@echo starting ...
+./run.bat
+
+:end
