@@ -563,3 +563,8 @@ const char** get_active_color_scheme(void)
 
     return scheme;
 }
+
+int get_max_color_palette()
+{
+    return sizeof(colors) / sizeof(colors[0]);
+}

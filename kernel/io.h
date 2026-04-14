@@ -67,5 +67,6 @@ int get_color_code(const char *color);
 char* get_color(int color_code);
 void set_color(int *color_code);
 const char** get_active_color_scheme(void);
+int get_max_color_palette();
 
 #endif

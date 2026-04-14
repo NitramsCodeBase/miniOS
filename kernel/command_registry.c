@@ -36,32 +36,6 @@ void cmd_execute_mini()
     reboot();
 }
 
-Command commands[] = {
-    {"draw1", cmd_draw},
-    {"reboot", cmd_reboot},
-    {"help", cmd_help}};
-
-void execute_command(const char *input)
-{
-    for (int i = 0; i < sizeof(commands); i++)
-    {
-        Command cmd = commands[i];
-
-        if (starts_with(input, cmd.name))
-        {
-            const char *args = input + strlen(cmd.name);
-
-            if (*args == ' ')
-                args++;
-
-            cmd.handler(args);
-            return;
-        }
-    }
-
-    println("Unknown command");
-}
-
 void call_command_time(const char *args)
 {
     print_time();
@@ -89,7 +63,9 @@ void call_command_color(const char *args)
 
     if(strcmp(parameters[0], "list") == 0)
     {
-        for (int i = 0; i < 16; i++) 
+        int max_size = get_max_color_palette();
+
+        for (int i = 0; i < max_size; i++) 
             printf("%s\n",get_color(i));
 
         return;
