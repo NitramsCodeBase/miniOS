@@ -75,6 +75,12 @@ void shell_execute(const char* cmd)
     {
         call_command_color(cmd + 6);
     }
+    else if (strcmp(cmd, "color") == 0) 
+    {
+        const char** colors = get_active_color_scheme();
+
+        printf("current active color scheme: %s/%s\n", colors[0], colors[1]);
+    }
     else if (strcmp(cmd, "mem") == 0) 
     {
          int total_kb = 128 * 1024; // 128 MB angenommen

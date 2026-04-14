@@ -75,11 +75,11 @@ void call_command_color(const char *args)
     
     if(strcmp(parameters[0], "default") == 0)
     {
-        color_code[0] = 0;
-        color_code[1] = 7;
+        color_code[0] = get_color_code("black");
+        color_code[1] = get_color_code("lightgray");
 
         set_color(color_code);
-        
+
         clear_screen();
         println("set default colors");
         return;
@@ -102,6 +102,7 @@ void call_command_color(const char *args)
         println("list               : lists all available colors for shell mode");
         println("default            : sets the default color scheme back to normal");
         println("");
+        println("typing command without any parameters will return the current color scheme");
 
         return;
     }

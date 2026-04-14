@@ -7,7 +7,7 @@ typedef unsigned int   u32;
 typedef int boolean;
 
 typedef struct {
-    const char *key;
+    char *key;
     int value;
 } ColorPalette;
 
@@ -61,9 +61,11 @@ int atoi(const char *str);
 void read_arguments(const char *args, int out[], int count);
 void printf(const char* format, ...);
 char* to_upper(char *str);
+char* to_lower(char *str);
 void split(const char *args, char seperator, char *out[]);
 int get_color_code(const char *color);
-const char* get_color(int color_code);
+char* get_color(int color_code);
 void set_color(int *color_code);
+const char** get_active_color_scheme(void);
 
 #endif

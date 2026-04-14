@@ -11,6 +11,9 @@ int input_len = 0;
 
 int shift_pressed = 0;
 
+char* foreground = "lightgray";
+char* background = "black";
+
 ColorPalette colors[] = {
     {"black", 0x00},
     {"blue", 0x01},
@@ -515,10 +518,10 @@ int get_color_code(const char *color)
     return color_code;
 }
 
-const char* get_color(int color_code)
+char* get_color(int color_code)
 {
     int len = sizeof(colors) / sizeof(colors[0]);
-    const char *color;
+    char *color;
 
     for (int i = 0; i < len; i++)
     {
@@ -539,6 +542,9 @@ void set_color(int *color_code)
 
     color = (bg << 4) | fg;
 
+    background = get_color(bg);
+    foreground = get_color(fg);
+
     for (int y = 0; y < VGA_HEIGHT; y++)
     {
         for (int x = 0; x < VGA_WIDTH; x++)
@@ -546,4 +552,14 @@ void set_color(int *color_code)
             VGA_MEMORY[y * VGA_WIDTH + x] = ((u16)color << 8) | ' ';
         }
     }
+}
+
+const char** get_active_color_scheme(void)
+{
+    static const char* scheme[2];
+
+    scheme[0] = background;
+    scheme[1] = foreground;
+
+    return scheme;
 }

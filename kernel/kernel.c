@@ -38,11 +38,7 @@ void kernel_main()
     println("Type 'help' for commands.");
     put_char('\n');
     prompt();
-
-    printf("%s\n", to_upper("hello world"));
-
-    return;
-
+    
     while (1)
     {
         if (!(inb(0x64) & 1))

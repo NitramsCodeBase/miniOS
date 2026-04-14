@@ -49,6 +49,7 @@ if not exist "./miniOS.img" goto :errornotfound
 
 @echo.
 @echo success
+@echo.
 
 choice /c YN /M "Build is completed. Do you want to start it right now?"
 
