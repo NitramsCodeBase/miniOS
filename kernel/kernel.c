@@ -56,15 +56,27 @@ void kernel_main()
             shell_execute(input_buffer);
             input_len = 0;
             prompt();
-
-            // Cursor cur = get_cursor_pos();
-            // move_cursor_to(75, 0);
-            // printf("%d:%d\n", cur.y, cur.x);
-            // move_cursor_to(cur.x, cur.y);
         }
         else if (sc == 0x0E)
         {
             backspace();
+        }
+        else if (sc == 0x01) 
+        {
+            Cursor cur = get_cursor_pos();
+            
+            input_len += 2;
+
+            for (int i = 2; i < input_len; i++) 
+            {
+                move_cursor_to(i, cur.y);
+                put_char('\0');
+            }
+            
+            input_len = 0;
+            input_buffer[input_len];
+            
+            move_cursor_to(2, cur.y);
         }
         else
         {

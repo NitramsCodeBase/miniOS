@@ -55,7 +55,8 @@ void call_command_color(const char *args)
         set_color(color_code);
 
         clear_screen();
-        println("set default colors");
+        println("set default colors to black/lightgray");
+        
         return;
     }
 
