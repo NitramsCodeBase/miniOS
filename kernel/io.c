@@ -568,3 +568,14 @@ int get_max_color_palette()
 {
     return sizeof(colors) / sizeof(colors[0]);
 }
+
+void delete_char_at_position(Cursor cur, char ch)
+{
+    for (int i = 2; i < input_len + 2; i++)
+    {
+        move_cursor_to(i, cur.y);
+        put_char(ch);
+    }
+
+    input_len = 0;
+}

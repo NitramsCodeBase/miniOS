@@ -28,6 +28,25 @@ typedef struct {
 #define WHITE_ON_GREEN      0x2F
 #define LIGHTGRAY_ON_BLACK  0x07
 
+#define ESCAPE_KEY          0x01
+#define BACKSPACE_KEY       0x0E
+#define RETURN_KEY          0x1C
+#define F1_KEY              0x3B
+#define F2_KEY              0x3C
+#define F3_KEY              0x3D
+#define F4_KEY              0x3E
+#define F5_KEY              0x3F
+#define F6_KEY              0x40
+#define F7_KEY              0x41
+#define F8_KEY              0x42
+#define F9_KEY              0x43
+#define F10_KEY             0x44
+
+// needs to be addressed
+#define F11_KEY             0x45
+#define F12_KEY             0x46
+#define SPACE_KEY           0x20
+
 extern int cursor_row;
 extern int cursor_col;
 extern u8 color;
@@ -68,5 +87,6 @@ char* get_color(int color_code);
 void set_color(int *color_code);
 const char** get_active_color_scheme(void);
 int get_max_color_palette();
+void delete_char_at_position(Cursor cur, char ch);
 
 #endif

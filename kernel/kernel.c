@@ -49,42 +49,41 @@ void kernel_main()
         if (sc & 0x80)
             continue;
 
-        if (sc == 0x1C)
+        switch(sc)
         {
-            put_char('\n');
-            input_buffer[input_len] = '\0';
-            shell_execute(input_buffer);
-            input_len = 0;
-            prompt();
-        }
-        else if (sc == 0x0E)
-        {
-            backspace();
-        }
-        else if (sc == 0x01) 
-        {
-            Cursor cur = get_cursor_pos();
-            
-            input_len += 2;
-
-            for (int i = 2; i < input_len; i++) 
+            case RETURN_KEY:
             {
-                move_cursor_to(i, cur.y);
-                put_char('\0');
+                put_char('\n');
+                input_buffer[input_len] = '\0';
+                shell_execute(input_buffer);
+                input_len = 0;
+                prompt();
+                break;
             }
-            
-            input_len = 0;
-            input_buffer[input_len];
-            
-            move_cursor_to(2, cur.y);
-        }
-        else
-        {
-            char c = scancode_to_ascii(sc);
-            if (c && input_len < (int)(sizeof(input_buffer) - 1))
+            case BACKSPACE_KEY: 
             {
-                input_buffer[input_len++] = c;
-                put_char(c);
+                backspace();
+                break;
+            }
+            case ESCAPE_KEY:
+            {
+                Cursor cursor = get_cursor_pos();
+
+                delete_char_at_position(cursor, '\0');
+
+                input_buffer[input_len];
+                move_cursor_to(2, cursor.y);
+                break;
+            }
+            default:
+            {
+                char c = scancode_to_ascii(sc);
+                if (c && input_len < (int)(sizeof(input_buffer) - 1))
+                {
+                    input_buffer[input_len++] = c;
+                    put_char(c);
+                }
+                break;
             }
         }
     }
