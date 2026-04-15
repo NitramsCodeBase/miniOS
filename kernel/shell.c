@@ -67,6 +67,10 @@ void shell_execute(const char* cmd)
         *OS_ACTIVE = 0;
         reboot();
     }
+    else if (strcmp(cmd, "date") == 0) 
+    {
+        call_cmd_date(cmd + 4);
+    }
     else if (strcmp(cmd, "shutdown") == 0)
     {
         println("Shutting down...");

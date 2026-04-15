@@ -2,6 +2,7 @@
 #include "system.h"
 #include "string.h"
 #include "./apis/time.h"
+#include "./apis/date.h"
 #include "command_registry.h"
 #include "./apis/graphics_api.h"
 
@@ -98,4 +99,9 @@ void call_command_color(const char *args)
     clear_screen();
 
     printf("color set to %s/%s\n", get_color(color_code[0]), get_color(color_code[1]));
+}
+
+void call_cmd_date(const char* args)
+{
+    print_date();
 }
