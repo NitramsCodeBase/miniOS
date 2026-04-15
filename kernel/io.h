@@ -47,6 +47,8 @@ typedef struct {
 #define F12_KEY             0x46
 #define SPACE_KEY           0x20
 
+#define MAX_COL_WIDTH       70
+
 extern int cursor_row;
 extern int cursor_col;
 extern u8 color;
@@ -60,6 +62,7 @@ u8 inb(u16 port);
 void outb(u16 port, u8 value);
 void move_cursor();
 void move_cursor_to(int x, int y);
+void cursor_update();
 void update_cursor_pos();
 Cursor get_cursor_pos();
 void clear_screen();

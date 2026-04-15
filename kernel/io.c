@@ -162,6 +162,14 @@ void move_cursor_to(int x, int y)
     outb(0x3D5, (u8)((pos >> 8) & 0xFF));
 }
 
+void cursor_update()
+{
+    Cursor cursor = get_cursor_pos();
+    move_cursor_to(75, 0);
+    printf("%02d:%02d", cursor.x - 1, cursor.y);
+    move_cursor_to(cursor.x, cursor.y);
+}
+
 Cursor get_cursor_pos()
 {
     Cursor cur;
@@ -298,12 +306,12 @@ int starts_with(const char *str, const char *prefix)
 
 void prompt()
 {
-    print("> ");
+    print(">");
 }
 
 void backspace()
 {
-    if (input_len <= 0 || cursor_col <= 2)
+    if (input_len <= 0 || cursor_col <= 0)
         return;
 
     input_len--;
@@ -688,7 +696,7 @@ int get_max_color_palette()
 
 void delete_char_at_position(Cursor cur, char ch)
 {
-    for (int i = 2; i < input_len + 2; i++)
+    for (int i = 1; i < input_len + 2; i++)
     {
         move_cursor_to(i, cur.y);
         put_char(ch);

@@ -38,9 +38,6 @@ void kernel_main()
 
     pit_init(1000);
 
-    println("miniSHELL");
-    println("Type 'help' for commands.");
-    put_char('\n');
     prompt();
 
     cursor_update();
@@ -59,18 +56,20 @@ void kernel_main()
         {
             case RETURN_KEY:
             {
-                cursor_update();
-
                 put_char('\n');
                 input_buffer[input_len] = '\0';
                 shell_execute(input_buffer);
                 input_len = 0;
                 prompt();
+                
+                cursor_update();
                 break;
             }
             case BACKSPACE_KEY: 
             {
                 backspace();
+
+                cursor_update();                    
                 break;
             }
             case ESCAPE_KEY:
@@ -80,28 +79,27 @@ void kernel_main()
                 delete_char_at_position(cursor, '\0');
 
                 input_buffer[input_len];
-                move_cursor_to(2, cursor.y);
+                move_cursor_to(1, cursor.y);
+
+                cursor_update();                    
                 break;
             }
             default:
             {
                 char c = scancode_to_ascii(sc);
+
+                if (c && input_len >= MAX_COL_WIDTH) 
+                    break;
+                
                 if (c && input_len < (int)(sizeof(input_buffer) - 1))
                 {
-                    cursor_update();                    
                     input_buffer[input_len++] = c;
                     put_char(c);
+
+                    cursor_update();                    
                 }
                 break;
             }
         }
     }
-}
-
-void cursor_update()
-{
-    cursor = get_cursor_pos();
-    move_cursor_to(75, 0);
-    printf("%02d:%02d", cursor.x - 2, cursor.y - 2);
-    move_cursor_to(cursor.x, cursor.y);
 }

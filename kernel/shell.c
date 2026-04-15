@@ -55,6 +55,7 @@ void shell_execute(const char* cmd)
         println("miniSHELL 32-bit Kernel 1.0");
         println("Protected Mode active");
         println("Developed by Martin Steinkasserer, for testing purposes.");
+        println("");
     }
     else if (starts_with(cmd, "echo "))
     {
