@@ -68,6 +68,10 @@ void print_time()
     
     int hours = (t.hours + 2) % 24;
 
+    printf("current time: %02d:%02d:%02d\n", hours, t.minutes, t.seconds);
+
+    return;
+
     print("current time: ");
     print_two_digits(hours);
     print(":");

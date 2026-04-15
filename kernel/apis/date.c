@@ -113,6 +113,10 @@ void print_date(void)
 {
     Date d = get_rtc_date();
 
+    printf("current date: %02d.%02d.%04d\n", d.day, d.month, d.year);
+
+    return;
+
     print("current date: ");
     print_two_digits(d.day);
     put_char('.');
