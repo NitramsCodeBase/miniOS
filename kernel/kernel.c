@@ -6,6 +6,8 @@
 
 Cursor cursor;
 
+void cursor_update();
+
 void kernel_main()
 {
     clear_screen();
@@ -41,10 +43,7 @@ void kernel_main()
     put_char('\n');
     prompt();
 
-    cursor = get_cursor_pos();
-    move_cursor_to(75,0);
-    printf("%d:%d", cursor.x - 1, cursor.y - 2);
-    move_cursor_to(cursor.x, cursor.y);
+    cursor_update();
     
     while (1)
     {
@@ -60,10 +59,7 @@ void kernel_main()
         {
             case RETURN_KEY:
             {
-                cursor = get_cursor_pos();
-                move_cursor_to(75,0);
-                printf("%d:%d", cursor.x - 1, cursor.y);
-                move_cursor_to(cursor.x, cursor.y);
+                cursor_update();
 
                 put_char('\n');
                 input_buffer[input_len] = '\0';
@@ -92,11 +88,7 @@ void kernel_main()
                 char c = scancode_to_ascii(sc);
                 if (c && input_len < (int)(sizeof(input_buffer) - 1))
                 {
-                    cursor = get_cursor_pos();
-                    move_cursor_to(75, 0);
-                    printf("%d:%d", cursor.x - 1, cursor.y);
-                    move_cursor_to(cursor.x, cursor.y);
-
+                    cursor_update();                    
                     input_buffer[input_len++] = c;
                     put_char(c);
                 }
@@ -104,4 +96,12 @@ void kernel_main()
             }
         }
     }
+}
+
+void cursor_update()
+{
+    cursor = get_cursor_pos();
+    move_cursor_to(75, 0);
+    printf("%02d:%02d", cursor.x - 2, cursor.y - 2);
+    move_cursor_to(cursor.x, cursor.y);
 }

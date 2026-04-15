@@ -45,6 +45,100 @@ void outb(u16 port, u8 value)
     __asm__ volatile("outb %0, %1" : : "a"(value), "Nd"(port));
 }
 
+int str_length(const char *str)
+{
+    int len = 0;
+    while (str[len] != '\0')
+        len++;
+    return len;
+}
+
+void put_padding(char pad_char, int count)
+{
+    for (int i = 0; i < count; i++)
+        put_char(pad_char);
+}
+
+void print_number_padded(int value, int width, char pad_char)
+{
+    char buffer[32];
+    int i = 0;
+    int is_negative = 0;
+
+    if (value == 0)
+    {
+        buffer[i++] = '0';
+    }
+    else
+    {
+        if (value < 0)
+        {
+            is_negative = 1;
+            value = -value;
+        }
+
+        while (value > 0)
+        {
+            buffer[i++] = '0' + (value % 10);
+            value /= 10;
+        }
+
+        if (is_negative)
+            buffer[i++] = '-';
+    }
+
+    int len = i;
+
+    if (pad_char == '0' && is_negative)
+    {
+        put_char('-');
+        put_padding('0', width - len);
+
+        for (int j = len - 2; j >= 0; j--)
+            put_char(buffer[j]);
+    }
+    else
+    {
+        put_padding(pad_char, width - len);
+
+        for (int j = len - 1; j >= 0; j--)
+            put_char(buffer[j]);
+    }
+}
+
+void print_hex_padded(unsigned int value, int width, char pad_char)
+{
+    char buffer[32];
+    int i = 0;
+
+    if (value == 0)
+    {
+        buffer[i++] = '0';
+    }
+    else
+    {
+        while (value > 0)
+        {
+            unsigned int digit = value % 16;
+            buffer[i++] = (digit < 10) ? ('0' + digit) : ('A' + digit - 10);
+            value /= 16;
+        }
+    }
+
+    int len = i;
+    put_padding(pad_char, width - len);
+
+    for (int j = len - 1; j >= 0; j--)
+        put_char(buffer[j]);
+}
+
+void print_string_padded(const char *str, int width, char pad_char)
+{
+    int len = str_length(str);
+    put_padding(pad_char, width - len);
+    print(str);
+}
+
 void move_cursor()
 {
     u16 pos = (u16)(cursor_row * VGA_WIDTH + cursor_col);
@@ -431,25 +525,48 @@ void printf(const char *format, ...)
         {
             format++;
 
+            char pad_char = ' ';
+            int width = 0;
+
+            if (*format == '0')
+            {
+                pad_char = '0';
+                format++;
+            }
+
+            while (*format >= '0' && *format <= '9')
+            {
+                width = width * 10 + (*format - '0');
+                format++;
+            }
+
             if (*format == 'd')
             {
                 int value = va_arg(args, int);
-                print_number(value);
+                print_number_padded(value, width, pad_char);
             }
             else if (*format == 's')
             {
                 char *str = va_arg(args, char *);
-                print(str);
+                if (str == 0)
+                    str = "(null)";
+                print_string_padded(str, width, pad_char);
             }
             else if (*format == 'c')
             {
                 char c = (char)va_arg(args, int);
+                if (width > 1)
+                    put_padding(pad_char, width - 1);
                 put_char(c);
             }
             else if (*format == 'X')
             {
                 unsigned int value = va_arg(args, unsigned int);
-                print_hex(value);
+                print_hex_padded(value, width, pad_char);
+            }
+            else if (*format == '%')
+            {
+                put_char('%');
             }
             else
             {
