@@ -4,6 +4,8 @@
 #include "system.h"
 #include "./apis/graphics_api.h"
 
+Cursor cursor;
+
 void kernel_main()
 {
     clear_screen();
@@ -38,6 +40,11 @@ void kernel_main()
     println("Type 'help' for commands.");
     put_char('\n');
     prompt();
+
+    cursor = get_cursor_pos();
+    move_cursor_to(75,0);
+    printf("%d:%d", cursor.x - 1, cursor.y - 2);
+    move_cursor_to(cursor.x, cursor.y);
     
     while (1)
     {
@@ -53,6 +60,11 @@ void kernel_main()
         {
             case RETURN_KEY:
             {
+                cursor = get_cursor_pos();
+                move_cursor_to(75,0);
+                printf("%d:%d", cursor.x - 1, cursor.y);
+                move_cursor_to(cursor.x, cursor.y);
+
                 put_char('\n');
                 input_buffer[input_len] = '\0';
                 shell_execute(input_buffer);
@@ -67,7 +79,7 @@ void kernel_main()
             }
             case ESCAPE_KEY:
             {
-                Cursor cursor = get_cursor_pos();
+                cursor = get_cursor_pos();
 
                 delete_char_at_position(cursor, '\0');
 
@@ -80,6 +92,11 @@ void kernel_main()
                 char c = scancode_to_ascii(sc);
                 if (c && input_len < (int)(sizeof(input_buffer) - 1))
                 {
+                    cursor = get_cursor_pos();
+                    move_cursor_to(75, 0);
+                    printf("%d:%d", cursor.x - 1, cursor.y);
+                    move_cursor_to(cursor.x, cursor.y);
+
                     input_buffer[input_len++] = c;
                     put_char(c);
                 }
