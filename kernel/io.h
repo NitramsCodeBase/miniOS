@@ -91,6 +91,7 @@ void print_number(int num);
 int atoi(const char *str);
 void read_arguments(const char *args, int out[], int count);
 void printf(const char* format, ...);
+void cprintf(const char* format, char* bg, char* fg, ...);
 char* to_upper(char *str);
 char* to_lower(char *str);
 void split(const char *args, char seperator, char *out[]);

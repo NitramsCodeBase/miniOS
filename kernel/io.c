@@ -595,6 +595,11 @@ void printf(const char *format, ...)
     va_end(args);
 }
 
+void cprintf(const char* format, char* bg, char* fg, ...)
+{
+    
+}
+
 char* to_upper(char *str)
 {
     for (int i = 0; i < strlen(str); i++) 

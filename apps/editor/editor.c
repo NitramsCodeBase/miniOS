@@ -1,5 +1,6 @@
 #include "editor.h"
 #include "../../kernel/io.h"
+#include "../../kernel/apis/mouse.h"
 
 void run_editor(void)
 {
@@ -13,7 +14,12 @@ void run_editor(void)
     print_color(0, 0, 80, 1, "white", "black");
     print_color(0, 24, 80, 25, "white", "black");
 
+    print_color(0, 1, 1, 24, "white", "black");
+    print_color(79, 1, 80, 24, "white", "black");
+
     boolean running = true;
+
+    mouse_init();
 
     while(running) 
     {
