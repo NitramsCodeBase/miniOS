@@ -741,6 +741,18 @@ void print_color(int x_start, int y_start, int x_end, int y_end, char* bg, char*
     }
 }
 
+void set_background_color(char* bg_color)
+{
+    color = get_color_code(bg_color);
+    VGA_MEMORY[0 * VGA_WIDTH + 0] = ((u16)color << 4) | ' ';
+}
+
+void set_foreground_color(char* fg_color)
+{
+    color = get_color_code(fg_color);
+    VGA_MEMORY[0 * VGA_WIDTH + 0] = ((u16)color) | ' ';
+}
+
 void enable_shell()
 {
     active_app = false;
@@ -775,7 +787,9 @@ void enable_cursor()
     outb(VGA_COMMAND_PORT, 0x0B);
     outb(VGA_DATA_PORT, (cursor_end & 0xE0) | 15);
     
-    move_cursor_to(0,0);
+    Cursor cursor = get_cursor_pos();
+
+    move_cursor_to(cursor.x, cursor.y);
 }
 
 void disable_cursor()

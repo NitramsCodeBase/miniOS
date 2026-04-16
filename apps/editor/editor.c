@@ -1,10 +1,14 @@
 #include "editor.h"
 #include "../../kernel/io.h"
+#include "../../libs/string.h"
 
 boolean running;
+Cursor current_cursor_pos;
 
 void handler(u8 sc);
 void terminate_editor_message();
+void show_about();
+void hide_about();
 
 void run_editor(void)
 {
@@ -115,6 +119,12 @@ void handler(u8 sc)
             terminate_editor_message();
             break;
         }
+        case F1_KEY:
+        {
+            current_cursor_pos = get_cursor_pos();
+            show_about();
+            break;
+        }
         default:
         {
             char c = scancode_to_ascii(sc);
@@ -134,5 +144,83 @@ void handler(u8 sc)
 
 void terminate_editor_message()
 {
-    println("editor has been terminated.\n");
+    move_cursor_to(0, 0);
+    println(">editor has been terminated.\n");
+}
+
+void show_about() 
+{
+    boolean running = true;
+    disable_cursor();
+
+    // draw about dialog
+    print_color(20, 7, 60, 15, "lightgray", "black");
+    print_color(20, 6, 60, 7, "white", "black");
+    
+    const char* title = "about editor";
+
+    move_cursor_to(20, 6);
+    println(title);
+
+    // draw dialog shadows
+    print_color(21, 15, 61, 16, "black", "black");
+    print_color(60, 7, 61, 15, "black", "black");
+
+    print_color(0, 0, 0, 0, "green", "white");
+
+    const char* button = "  Okay  ";
+    int x = (strlen(button) + 80) / 2 - strlen(button);
+
+    move_cursor_to(x, 13);
+    println(button);
+
+    print_color(0, 0, 0, 0, "lightgray", "black");
+    move_cursor_to(21, 8);
+    println("text editor program for miniOS");
+    move_cursor_to(21, 9);
+    println("by Martin Steinkasserer, 2026");
+
+    while(running) 
+    {
+        if (!(inb(0x64) & 1))
+            continue;
+
+        u8 sc = inb(0x60);
+
+        if (sc & 0x80)
+            continue;
+
+        switch(sc) 
+        {
+            case RETURN_KEY:
+            {
+                running = false;
+                break;
+            }
+            default:
+            {
+
+                break;
+            }
+        }
+    }
+
+    enable_cursor();
+    move_cursor_to(current_cursor_pos.x, current_cursor_pos.y);
+
+    print_color(0, 0, 0, 0, "blue", "white");
+
+    hide_about();
+}
+
+void hide_about()
+{
+    // draw about dialog
+    print_color(20, 7, 60, 15, "blue", "black");
+    print_color(20, 6, 60, 7, "blue", "black");
+    // draw dialog shadows
+    print_color(21, 15, 61, 16, "blue", "black");
+    print_color(60, 7, 61, 15, "blue", "black");
+
+    print_color(0, 0, 0, 0, "blue", "white");
 }

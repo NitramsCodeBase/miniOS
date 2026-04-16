@@ -103,6 +103,8 @@ const char** get_active_color_scheme(void);
 int get_max_color_palette();
 void delete_char_at_position(Cursor cur, char ch);
 void print_color(int x_start, int y_start, int x_end, int y_end, char* bg, char* fg);
+void set_background_color(char* bg_color);
+void set_foreground_color(char* fg_color);
 void enable_shell();
 void disable_shell();
 void enable_cursor();
