@@ -11,6 +11,8 @@ int input_len = 0;
 
 int shift_pressed = 0;
 
+boolean active_app = false;
+
 char* foreground = "lightgray";
 char* background = "black";
 
@@ -703,4 +705,63 @@ void delete_char_at_position(Cursor cur, char ch)
     }
 
     input_len = 0;
+}
+
+void print_color(int x_start, int y_start, int x_end, int y_end, char* bg, char* fg)
+{
+    color = (get_color_code(bg) << 4) | get_color_code(fg);
+
+    for (int y = y_start; y < y_end; y++)
+    {
+        for (int x = x_start; x < x_end; x++)
+        {
+            VGA_MEMORY[y * VGA_WIDTH + x] = ((u16)color << 8) | ' ';
+        }
+    }
+}
+
+void enable_shell()
+{
+    active_app = false;
+    int *colors;
+
+    colors[0] = get_color_code("black");
+    colors[1] = get_color_code("lightgray");
+
+    set_color(colors);
+
+    enable_cursor();
+}
+
+void disable_shell()
+{
+    active_app = true;
+    disable_cursor();
+}
+
+void enable_cursor()
+{
+u8 cursor_start;
+    u8 cursor_end;
+
+    // Cursor Start Register lesen
+    outb(VGA_COMMAND_PORT, 0x0A);
+    cursor_start = inb(VGA_DATA_PORT);
+
+    // Cursor End Register lesen
+    outb(VGA_COMMAND_PORT, 0x0B);
+    cursor_end = inb(VGA_DATA_PORT);
+
+    // Bit 5 löschen = Cursor aktivieren
+    outb(VGA_COMMAND_PORT, 0x0A);
+    outb(VGA_DATA_PORT, (cursor_start & 0xC0) | 14);
+
+    outb(VGA_COMMAND_PORT, 0x0B);
+    outb(VGA_DATA_PORT, (cursor_end & 0xE0) | 15);
+}
+
+void disable_cursor()
+{
+    outb(VGA_COMMAND_PORT, 0x0A);
+    outb(VGA_DATA_PORT, 0x20);
 }

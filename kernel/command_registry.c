@@ -5,6 +5,7 @@
 #include "./apis/date.h"
 #include "command_registry.h"
 #include "./apis/graphics_api.h"
+#include "../apps/editor/editor.h"
 
 Command cmd;
 
@@ -104,4 +105,9 @@ void call_command_color(const char *args)
 void call_cmd_date(const char* args)
 {
     print_date();
+}
+
+void call_cmd_editor(const char* args)
+{
+    run_editor();
 }

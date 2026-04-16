@@ -76,6 +76,10 @@ void shell_execute(const char* cmd)
         println("Shutting down...");
         exit_qemu();
     }
+    else if (strcmp(cmd, "editor") == 0) 
+    {
+        call_cmd_editor(cmd);
+    }
     else if (starts_with(cmd, "color ")) 
     {
         call_command_color(cmd + 6);

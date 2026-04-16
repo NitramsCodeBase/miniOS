@@ -14,17 +14,17 @@ void kernel_main()
 
     unsigned char active = *BOOT_ACTIVE_ADDR;
 
-    if (active == BOOT_MODE_GUI) 
+    if (active == BOOT_MODE_GUI)
     {
-        graphics_init((u8*)0xA0000, 320, 200, 320);
+        graphics_init((u8 *)0xA0000, 320, 200, 320);
         graphics_enable();
         draw_mini_screen();
 
-        while(1) 
+        while (1)
         {
             u8 sc = inb(0x60);
 
-            if (sc == 0x01) 
+            if (sc == 0x01)
             {
                 break;
             }
@@ -32,7 +32,7 @@ void kernel_main()
 
         *BOOT_REQUEST_ADDR = BOOT_MODE_TEXT;
         *OS_ACTIVE = 1;
-        
+
         reboot();
     }
 
@@ -41,9 +41,12 @@ void kernel_main()
     prompt();
 
     cursor_update();
-    
+
     while (1)
     {
+        if(active_app)
+            break;
+
         if (!(inb(0x64) & 1))
             continue;
 
@@ -52,7 +55,7 @@ void kernel_main()
         if (sc & 0x80)
             continue;
 
-        switch(sc)
+        switch (sc)
         {
             case RETURN_KEY:
             {
@@ -61,15 +64,15 @@ void kernel_main()
                 shell_execute(input_buffer);
                 input_len = 0;
                 prompt();
-                
+
                 cursor_update();
                 break;
             }
-            case BACKSPACE_KEY: 
+            case BACKSPACE_KEY:
             {
                 backspace();
 
-                cursor_update();                    
+                cursor_update();
                 break;
             }
             case ESCAPE_KEY:
@@ -81,22 +84,66 @@ void kernel_main()
                 input_buffer[input_len];
                 move_cursor_to(1, cursor.y);
 
-                cursor_update();                    
+                cursor_update();
+                break;
+            }
+            case UP_KEY:
+            {
+                cursor = get_cursor_pos();
+
+                if (cursor.y <= 0)
+                    break;
+
+                move_cursor_to(cursor.x, --cursor.y);
+                cursor_update();
+                break;
+            }
+            case DOWN_KEY:
+            {
+                cursor = get_cursor_pos();
+
+                if (cursor.y > VGA_HEIGHT - 2)
+                    break;
+
+                move_cursor_to(cursor.x, ++cursor.y);
+                cursor_update();
+                break;
+            }
+            case LEFT_KEY:
+            {
+                cursor = get_cursor_pos();
+
+                if (cursor.x <= 1)
+                    break;
+
+                move_cursor_to(--cursor.x, cursor.y);
+                cursor_update();
+                break;
+            }
+            case RIGHT_KEY:
+            {
+                cursor = get_cursor_pos();
+
+                if (cursor.x > MAX_COL_WIDTH)
+                    break;
+
+                move_cursor_to(++cursor.x, cursor.y);
+                cursor_update();
                 break;
             }
             default:
             {
                 char c = scancode_to_ascii(sc);
 
-                if (c && input_len >= MAX_COL_WIDTH) 
+                if (c && input_len >= MAX_COL_WIDTH)
                     break;
-                
+
                 if (c && input_len < (int)(sizeof(input_buffer) - 1))
                 {
                     input_buffer[input_len++] = c;
                     put_char(c);
 
-                    cursor_update();                    
+                    cursor_update();
                 }
                 break;
             }

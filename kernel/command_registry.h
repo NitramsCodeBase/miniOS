@@ -11,5 +11,6 @@ void cmd_execute_mini();
 void call_command_time(const char* args);
 void call_command_color(const char* args);
 void call_cmd_date(const char* args);
+void call_cmd_editor(const char* args);
 
 #endif

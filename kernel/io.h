@@ -19,9 +19,11 @@ typedef struct {
 #define true 1
 #define false 0
 
-#define VGA_MEMORY ((u16*)0xB8000)
-#define VGA_WIDTH 80
-#define VGA_HEIGHT 25
+#define VGA_MEMORY          ((u16*)0xB8000)
+#define VGA_WIDTH           80
+#define VGA_HEIGHT          25
+#define VGA_COMMAND_PORT    0x3D4
+#define VGA_DATA_PORT       0x3D5
 
 #define WHITE_ON_BLACK      0x0F
 #define WHITE_ON_BLUE       0x1F
@@ -42,6 +44,11 @@ typedef struct {
 #define F9_KEY              0x43
 #define F10_KEY             0x44
 
+#define UP_KEY              0x48
+#define DOWN_KEY            0x50
+#define LEFT_KEY            0x4B
+#define RIGHT_KEY           0x4D
+
 // needs to be addressed
 #define F11_KEY             0x45
 #define F12_KEY             0x46
@@ -57,6 +64,8 @@ extern char input_buffer[128];
 extern int input_len;
 
 extern int shift_pressed;
+
+extern boolean active_app;
 
 u8 inb(u16 port);
 void outb(u16 port, u8 value);
@@ -91,5 +100,10 @@ void set_color(int *color_code);
 const char** get_active_color_scheme(void);
 int get_max_color_palette();
 void delete_char_at_position(Cursor cur, char ch);
+void print_color(int x_start, int y_start, int x_end, int y_end, char* bg, char* fg);
+void enable_shell();
+void disable_shell();
+void enable_cursor();
+void disable_cursor();
 
 #endif
