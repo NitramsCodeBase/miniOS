@@ -686,6 +686,22 @@ void set_color(int *color_code)
     }
 }
 
+void set_color_defaults()
+{
+    int bg = get_color_code(background);
+    int fg = get_color_code(foreground);
+
+    color = (bg << 4) | fg;
+
+    for (int y = 0; y < VGA_HEIGHT; y++)
+    {
+        for (int x = 0; x < VGA_WIDTH; x++)
+        {
+            VGA_MEMORY[y * VGA_WIDTH + x] = ((u16)color << 8) | ' ';
+        }
+    }
+}
+
 const char** get_active_color_scheme(void)
 {
     static const char* scheme[2];
@@ -728,13 +744,8 @@ void print_color(int x_start, int y_start, int x_end, int y_end, char* bg, char*
 void enable_shell()
 {
     active_app = false;
-    int *colors;
 
-    colors[0] = get_color_code("black");
-    colors[1] = get_color_code("lightgray");
-
-    set_color(colors);
-
+    set_color_defaults();
     enable_cursor();
 }
 
@@ -746,7 +757,7 @@ void disable_shell()
 
 void enable_cursor()
 {
-u8 cursor_start;
+    u8 cursor_start;
     u8 cursor_end;
 
     // Cursor Start Register lesen
@@ -763,6 +774,8 @@ u8 cursor_start;
 
     outb(VGA_COMMAND_PORT, 0x0B);
     outb(VGA_DATA_PORT, (cursor_end & 0xE0) | 15);
+    
+    move_cursor_to(0,0);
 }
 
 void disable_cursor()

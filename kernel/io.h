@@ -98,6 +98,7 @@ void split(const char *args, char seperator, char *out[]);
 int get_color_code(const char *color);
 char* get_color(int color_code);
 void set_color(int *color_code);
+void set_color_defaults();
 const char** get_active_color_scheme(void);
 int get_max_color_palette();
 void delete_char_at_position(Cursor cur, char ch);
