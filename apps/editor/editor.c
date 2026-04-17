@@ -5,12 +5,18 @@
 boolean running;
 Cursor current_cursor_pos;
 
+const char* button_yes  = "  Yes  ";
+const char* button_no   = "  No   ";
+int button_index        = 1;
+
 void handler(u8 sc);
 void terminate_editor_message();
 void confirmed_about_dialog(int position, const char* caption);
 void show_about();
 void hide_about();
-void close_app_dialog();
+boolean close_app_dialog();
+void hide_close_app_dialog();
+void update_close_dialog_button();
 
 void run_editor(void)
 {
@@ -66,7 +72,6 @@ void handler(u8 sc)
 
             cursor = get_cursor_pos();
             move_cursor_to(1, cursor.y++);
-
             break;
         }
         case BACKSPACE_KEY:
@@ -116,9 +121,17 @@ void handler(u8 sc)
         }
         case ESCAPE_KEY:
         {
-            running = false;
-            enable_shell();
-            terminate_editor_message();
+            current_cursor_pos = get_cursor_pos();
+
+            running = close_app_dialog();
+
+            move_cursor_to(current_cursor_pos.x, current_cursor_pos.y);
+
+            if(!running) 
+            {
+                enable_shell();
+                terminate_editor_message();
+            }
             break;
         }
         case F1_KEY:
@@ -238,7 +251,115 @@ void hide_about()
     print_color(0, 0, 0, 0, "blue", "white");
 }
 
-void close_app_dialog()
+boolean close_app_dialog()
 {
+    boolean running = true;
+    disable_cursor();
+
+    // draw about dialog
+    print_color(20, 7, 60, 15, "lightgray", "black");
+    print_color(20, 6, 60, 7, "white", "black");
     
+    const char* title = "close editor?";
+
+    move_cursor_to(20, 6);
+    println(title);
+
+    // draw dialog shadows
+    print_color(21, 15, 61, 16, "black", "black");
+    print_color(60, 7, 61, 15, "black", "black");
+
+    print_color(0, 0, 0, 0, "white", "black");
+
+    move_cursor_to(23, 13);
+    println(button_yes);
+
+    print_color(0, 0, 0, 0, "black", "white");
+    move_cursor_to(57 - strlen(button_no), 13);
+    println(button_no);
+
+    while(running)
+    {
+        if (!(inb(0x64) & 1))
+            continue;
+
+        u8 sc = inb(0x60);
+
+        if (sc & 0x80)
+            continue;
+
+        switch (sc)
+        {
+            case RETURN_KEY:
+            {
+                if(button_index == 1)
+                    hide_close_app_dialog();
+                
+                running = false;
+                break;
+            }
+            case LEFT_KEY:
+            {
+                if (button_index == 1) 
+                    button_index = 0;
+
+                update_close_dialog_button();
+                break;
+            }
+            case RIGHT_KEY:
+            {
+                if (button_index == 0)
+                    button_index = 1;
+
+                update_close_dialog_button();
+                break;
+            }
+            default:
+            {
+
+                break;
+            }
+        }
+    }
+
+    enable_cursor();
+    move_cursor_to(current_cursor_pos.x, current_cursor_pos.y);
+
+    return button_index == 1;
+}
+
+void hide_close_app_dialog()
+{
+    hide_about();
+}
+
+void update_close_dialog_button()
+{
+    switch(button_index)
+    {
+        case 0:
+        {
+            print_color(0, 0, 0, 0, "black", "white");
+
+            move_cursor_to(23, 13);
+            println(button_yes);
+
+            print_color(0, 0, 0, 0, "white", "black");
+            move_cursor_to(57 - strlen(button_no), 13);
+            println(button_no);
+            break;
+        }
+        case 1:
+        {
+            print_color(0, 0, 0, 0, "white", "black");
+
+            move_cursor_to(23, 13);
+            println(button_yes);
+
+            print_color(0, 0, 0, 0, "black", "white");
+            move_cursor_to(57 - strlen(button_no), 13);
+            println(button_no);
+            break;
+        }
+    }
 }
