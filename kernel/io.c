@@ -756,7 +756,6 @@ void set_foreground_color(char* fg_color)
 void enable_shell()
 {
     active_app = false;
-
     set_color_defaults();
     enable_cursor();
 }

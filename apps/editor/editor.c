@@ -2,12 +2,13 @@
 #include "../../kernel/io.h"
 #include "../../libs/string.h"
 
-boolean running;
 Cursor current_cursor_pos;
+boolean running;
+int button_index;
 
-const char* button_yes  = "  Yes  ";
-const char* button_no   = "  No   ";
-int button_index        = 1;
+const char* button_yes      = "  Yes  ";
+const char* button_no       = "  No   ";
+const int   delay_seconds   = 10000;    
 
 void handler(u8 sc);
 void terminate_editor_message();
@@ -23,6 +24,7 @@ void run_editor(void)
     clear_screen();
 
     input_len = 0;
+    button_index = 1;
 
     // print borders up and down
     print_color(0, 0, 80, 1, "white", "black");
@@ -55,6 +57,9 @@ void run_editor(void)
             continue;
 
         handler(sc);
+
+        if (button_index == 0)
+            running = false;
     }
 }
 
@@ -123,11 +128,11 @@ void handler(u8 sc)
         {
             current_cursor_pos = get_cursor_pos();
 
-            running = close_app_dialog();
+            close_app_dialog();
 
             move_cursor_to(current_cursor_pos.x, current_cursor_pos.y);
 
-            if(!running) 
+            if(button_index == 0) 
             {
                 enable_shell();
                 terminate_editor_message();
@@ -236,7 +241,7 @@ void confirmed_about_dialog(int position, const char *caption)
     move_cursor_to(position, 13);
     println(caption);
 
-    delay_ms(10000);
+    delay_ms(delay_seconds);
 }
 
 void hide_about()
@@ -312,11 +317,6 @@ boolean close_app_dialog()
                     button_index = 1;
 
                 update_close_dialog_button();
-                break;
-            }
-            default:
-            {
-
                 break;
             }
         }
