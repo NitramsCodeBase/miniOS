@@ -7,7 +7,7 @@ boolean running;
 int button_index;
 
 const char* button_yes      = "  Yes  ";
-const char* button_no       = "  No   ";
+const char* button_no       = "  No  ";
 const int   delay_seconds   = 10000;    
 
 void handler(u8 sc);
@@ -78,6 +78,13 @@ void handler(u8 sc)
 
             cursor = get_cursor_pos();
             move_cursor_to(1, cursor.y++);
+            break;
+        }
+        case TAB_KEY:
+        {
+            current_cursor_pos = get_cursor_pos();
+            current_cursor_pos.x += 8;
+            move_cursor_to(current_cursor_pos.x, current_cursor_pos.y);
             break;
         }
         case BACKSPACE_KEY:

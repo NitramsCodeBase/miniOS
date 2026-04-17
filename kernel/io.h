@@ -33,6 +33,7 @@ typedef struct {
 #define ESCAPE_KEY          0x01
 #define BACKSPACE_KEY       0x0E
 #define RETURN_KEY          0x1C
+#define TAB_KEY             0x0F
 #define F1_KEY              0x3B
 #define F2_KEY              0x3C
 #define F3_KEY              0x3D
