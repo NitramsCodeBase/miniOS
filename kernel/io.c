@@ -797,3 +797,14 @@ void disable_cursor()
     outb(VGA_COMMAND_PORT, 0x0A);
     outb(VGA_DATA_PORT, 0x20);
 }
+
+void delay_ms(unsigned int ms)
+{
+    for (unsigned int i = 0; i < ms; i++)
+    {
+        for (volatile unsigned int j = 0; j < 10000; j++)
+        {
+            __asm__ __volatile__("nop");
+        }
+    }
+}

@@ -109,5 +109,6 @@ void enable_shell();
 void disable_shell();
 void enable_cursor();
 void disable_cursor();
+void delay_ms(unsigned int ms);
 
 #endif

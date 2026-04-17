@@ -7,8 +7,10 @@ Cursor current_cursor_pos;
 
 void handler(u8 sc);
 void terminate_editor_message();
+void confirmed_about_dialog(int position, const char* caption);
 void show_about();
 void hide_about();
+void close_app_dialog();
 
 void run_editor(void)
 {
@@ -166,7 +168,7 @@ void show_about()
     print_color(21, 15, 61, 16, "black", "black");
     print_color(60, 7, 61, 15, "black", "black");
 
-    print_color(0, 0, 0, 0, "green", "white");
+    print_color(0, 0, 0, 0, "white", "black");
 
     const char* button = "  Okay  ";
     int x = (strlen(button) + 80) / 2 - strlen(button);
@@ -195,6 +197,7 @@ void show_about()
             case RETURN_KEY:
             {
                 running = false;
+                confirmed_about_dialog(x, button);
                 break;
             }
             default:
@@ -213,6 +216,16 @@ void show_about()
     hide_about();
 }
 
+void confirmed_about_dialog(int position, const char *caption)
+{
+    print_color(0, 0, 0, 0, "black", "white");
+
+    move_cursor_to(position, 13);
+    println(caption);
+
+    delay_ms(10000);
+}
+
 void hide_about()
 {
     // draw about dialog
@@ -223,4 +236,9 @@ void hide_about()
     print_color(60, 7, 61, 15, "blue", "black");
 
     print_color(0, 0, 0, 0, "blue", "white");
+}
+
+void close_app_dialog()
+{
+    
 }
