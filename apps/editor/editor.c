@@ -13,6 +13,7 @@ const int   delay_seconds   = 10000;
 void handler(u8 sc);
 void terminate_editor_message();
 void confirmed_about_dialog(int position, const char* caption);
+void confirmed_close_dialog(int position, const char *caption);
 void show_about();
 void hide_about();
 boolean close_app_dialog();
@@ -242,6 +243,30 @@ void confirmed_about_dialog(int position, const char *caption)
     println(caption);
 
     delay_ms(delay_seconds);
+
+    print_color(0, 0, 0, 0, "white", "black");
+
+    move_cursor_to(position, 13);
+    println(caption);
+
+    delay_ms(delay_seconds);
+}
+
+void confirmed_close_dialog(int position, const char *caption)
+{
+     print_color(0, 0, 0, 0, "white", "black");
+
+    move_cursor_to(position, 13);
+    println(caption);
+
+    delay_ms(delay_seconds);
+
+    print_color(0, 0, 0, 0, "black", "white");
+
+    move_cursor_to(position, 13);
+    println(caption);
+
+    delay_ms(delay_seconds);
 }
 
 void hide_about()
@@ -274,6 +299,12 @@ boolean close_app_dialog()
     print_color(21, 15, 61, 16, "black", "black");
     print_color(60, 7, 61, 15, "black", "black");
 
+    print_color(20, 7, 60, 15, "lightgray", "black");
+    move_cursor_to(22,8);
+    println("Do you really want to close editor?");
+    move_cursor_to(22,9);
+    println("Warning unsaved text will be lost");
+
     print_color(0, 0, 0, 0, "white", "black");
 
     move_cursor_to(23, 13);
@@ -297,8 +328,21 @@ boolean close_app_dialog()
         {
             case RETURN_KEY:
             {
-                if(button_index == 1)
-                    hide_close_app_dialog();
+                switch(button_index)
+                {
+                    case 0:
+                    {
+                        confirmed_close_dialog(23, button_yes);
+                        break;
+                    }
+                    case 1:
+                    {
+                        confirmed_close_dialog(57 - strlen(button_no), button_no);
+                        hide_close_app_dialog();
+                        break;
+                    }
+                }
+
                 
                 running = false;
                 break;
