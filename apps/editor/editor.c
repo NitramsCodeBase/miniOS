@@ -206,7 +206,7 @@ void show_about()
 
     print_color(0, 0, 0, 0, "lightgray", "black");
     move_cursor_to(21, 8);
-    println("text editor program for miniOS");
+    println("text editor program for mini-os");
     move_cursor_to(21, 9);
     println("by Martin Steinkasserer, 2026");
 

@@ -53,7 +53,7 @@ void shell_execute(const char* cmd)
     }
     else if (strcmp(cmd, "ver") == 0)
     {
-        println("miniSHELL 1.0\n");
+        println("mini-os shell version 1.0\n");
     }
     else if (starts_with(cmd, "echo "))
     {

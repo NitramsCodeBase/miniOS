@@ -1,4 +1,4 @@
-Instructions to build miniOS Shell 1.0
+Instructions to build mini-os Shell 1.0
 ======================================
 
 1. kernel entry
