@@ -22,6 +22,7 @@ void shell_execute(const char* cmd)
         println("drawfilled - draws a filled square on the screen");
         println("time       - shows the current time.");
         println("color x x  - sets the x for back- and x for foreground");
+        println("editor     - starts the mini editor");
         println("mini       - starts the gui interface");
         println("reboot     - reboot machine");
         println("shutdown   - shutdown the machine");

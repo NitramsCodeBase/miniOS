@@ -9,7 +9,7 @@ DATA_SEG            equ 0x10
 ;   sectors = (kernel_size + 511) / 512
 ; Example: 34664 bytes -> 68 sectors
 ; ------------------------------------------------------------------
-SECTORS_TO_READ     equ 68
+SECTORS_TO_READ     equ 70
 
 ; ------------------------------------------------------------------
 ; Future-proof loading strategy:
@@ -237,8 +237,8 @@ dap_buffer_segment  dw 0
 dap_lba_low         dd 0
 dap_lba_high        dd 0
 
-boot_msg            db "Booting miniSHELL ...", 0
-boot_mini_gui_msg   db "Booting miniOS ...", 0
+boot_msg            db "starting mini-os ...", 0
+boot_mini_gui_msg   db "starting graphical interface ...", 0
 disk_error_msg      db "Disk read error!", 0
 boot_drive          db 0
 

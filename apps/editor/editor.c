@@ -6,9 +6,9 @@ Cursor current_cursor_pos;
 boolean running;
 int button_index;
 
-const char* button_yes      = "  Yes  ";
-const char* button_no       = "  No  ";
-const int   delay_seconds   = 10000;    
+const char* button_yes      = "  Okay  ";
+const char* button_no       = "  Cancel  ";
+const int   delay_seconds   = 8000;    
 
 void handler(u8 sc);
 void terminate_editor_message();
@@ -67,6 +67,8 @@ void run_editor(void)
 void handler(u8 sc)
 {
     Cursor cursor;
+
+    u8 extended_sc;
 
     switch (sc)
     {
@@ -349,9 +351,16 @@ boolean close_app_dialog()
                         break;
                     }
                 }
-
-                
                 running = false;
+                break;
+            }
+            case O_KEY:
+            {
+                button_index = 0;
+                update_close_dialog_button();
+                confirmed_close_dialog(23, button_yes);
+                running = false;
+
                 break;
             }
             case LEFT_KEY:
@@ -360,6 +369,16 @@ boolean close_app_dialog()
                     button_index = 0;
 
                 update_close_dialog_button();
+                break;
+            }
+            case C_KEY:
+            {
+                button_index = 1;
+                update_close_dialog_button();
+                confirmed_close_dialog(57 - strlen(button_no), button_no);
+                hide_close_app_dialog();
+
+                running = false;
                 break;
             }
             case RIGHT_KEY:

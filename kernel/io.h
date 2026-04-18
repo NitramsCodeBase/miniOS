@@ -50,12 +50,70 @@ typedef struct {
 #define LEFT_KEY            0x4B
 #define RIGHT_KEY           0x4D
 
+// Letters
+#define A_KEY               0x1E
+#define B_KEY               0x30
+#define C_KEY               0x2E
+#define D_KEY               0x20
+#define E_KEY               0x12
+#define F_KEY               0x21
+#define G_KEY               0x22
+#define H_KEY               0x23
+#define I_KEY               0x17
+#define J_KEY               0x24
+#define K_KEY               0x25
+#define L_KEY               0x26
+#define M_KEY               0x32
+#define N_KEY               0x31
+#define O_KEY               0x18
+#define P_KEY               0x19
+#define Q_KEY               0x10
+#define R_KEY               0x13
+#define S_KEY               0x1F
+#define T_KEY               0x14
+#define U_KEY               0x16
+#define V_KEY               0x2F
+#define W_KEY               0x11
+#define X_KEY               0x2D
+#define Y_KEY               0x2C
+#define Z_KEY               0x15
+
+// Numbers (top row)
+#define KEY_1               0x02
+#define KEY_2               0x03
+#define KEY_3               0x04
+#define KEY_4               0x05
+#define KEY_5               0x06
+#define KEY_6               0x07
+#define KEY_7               0x08
+#define KEY_8               0x09
+#define KEY_9               0x0A
+#define KEY_0               0x0B
+
+// Control keys
+#define ENTER_KEY           0x1C
+#define ESCAPE_KEY          0x01
+#define BACKSPACE_KEY       0x0E
+#define TAB_KEY             0x0F
+
+// Modifiers
+#define LEFT_SHIFT_KEY      0x2A
+#define RIGHT_SHIFT_KEY     0x36
+#define CTRL_KEY            0x1D
+#define ALT_KEY             0x38
+
+// Arrow keys (extended scancodes → need 0xE0 prefix handling!)
+#define ARROW_UP            0x48
+#define ARROW_DOWN          0x50
+#define ARROW_LEFT          0x4B
+#define ARROW_RIGHT         0x4D
+
 // needs to be addressed
 #define F11_KEY             0x45
 #define F12_KEY             0x46
-#define SPACE_KEY           0x20
 
 #define MAX_COL_WIDTH       70
+#define MAX_ROW_HEIGHT      24
 
 extern int cursor_row;
 extern int cursor_col;
