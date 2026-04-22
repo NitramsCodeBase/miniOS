@@ -1,6 +1,7 @@
 #include "editor.h"
 #include "../../kernel/io.h"
 #include "../../libs/string.h"
+#include "../../kernel/apis/messagebox.h"
 
 Cursor current_cursor_pos;
 boolean running;
@@ -23,6 +24,10 @@ void update_close_dialog_button();
 void run_editor(void)
 {
     clear_screen();
+
+    // create_messagebox(20, 5, 60, 15, "Hello World");
+
+    // return;
 
     input_len = 0;
     button_index = 1;

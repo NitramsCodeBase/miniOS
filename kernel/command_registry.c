@@ -49,7 +49,7 @@ void call_command_color(const char *args)
     int color_code[2];
     split(args, ' ', parameters);  
     
-    if(strcmp(parameters[0], "default") == 0)
+    if(strcmp(parameters[0], "--default") == 0 || strcmp(parameters[0], "d") == 0)
     {
         color_code[0] = get_color_code("black");
         color_code[1] = get_color_code("lightgray");
@@ -74,13 +74,11 @@ void call_command_color(const char *args)
         return;
     }
 
-    if(strcmp(parameters[0], "help") == 0)
+    if(strcmp(parameters[0], "--help") == 0 || strcmp(parameters[0], "h") == 0)
     {
-        println("available commands : list, default");
-        println("");
-        println("list               : lists all available colors for shell mode");
-        println("default            : sets the default color scheme back to normal");
-        println("");
+        println("available commands:\n");
+        println("--list, l               : lists all available colors for shell mode");
+        println("--default, d            : sets the default color scheme back to normal\n");
         println("typing command without any parameters will return the current color scheme");
 
         return;
