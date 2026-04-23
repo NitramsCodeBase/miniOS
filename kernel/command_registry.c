@@ -48,7 +48,7 @@ void call_command_color(const char *args)
     char *parameters[3];
     int color_code[2];
     int len = sizeof(parameters) / sizeof(parameters[0]);
-    
+
     split(args, ' ', parameters);  
     
     if(strcmp(parameters[0], "--default") == 0 || strcmp(parameters[0], "d") == 0)
@@ -93,12 +93,14 @@ void call_command_color(const char *args)
         }
 
         for (int i = 1; i < len; i++) 
-            color_code[i - 1] = get_color_code(parameters[i]);
-
-        if (color_code[0] == -1 || color_code[1] == -1) 
         {
-            println("error: invalid color code!");
-            return;
+            color_code[i - 1] = get_color_code(parameters[i]);
+            
+            if (color_code[i - 1] == -1) 
+            {
+                println("error: invalid color code!");
+                return;
+            }
         }
 
         set_color(color_code);
