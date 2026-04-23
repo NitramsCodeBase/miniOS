@@ -47,8 +47,9 @@ void call_command_color(const char *args)
 {
     char *parameters[3];
     int color_code[2];
-    split(args, ' ', parameters);  
     int len = sizeof(parameters) / sizeof(parameters[0]);
+    
+    split(args, ' ', parameters);  
     
     if(strcmp(parameters[0], "--default") == 0 || strcmp(parameters[0], "d") == 0)
     {
