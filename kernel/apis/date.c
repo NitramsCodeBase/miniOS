@@ -118,10 +118,10 @@ void print_date(void)
     return;
 
     print("current date: ");
-    print_two_digits(d.day);
-    put_char('.');
-    print_two_digits(d.month);
-    put_char('.');
     print_number(d.year);
+    put_char('-');
+    print_two_digits(d.month);
+    put_char('-');
+    print_two_digits(d.day);
     put_char('\n');
 }

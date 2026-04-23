@@ -80,7 +80,8 @@ void call_command_color(const char *args)
         println("--list, l               : lists all available colors for shell mode");
         println("--set, s [bg] [fg]      : sets the specified color");
         println("--default, d            : sets the default color scheme back to normal\n");
-        println("[bg] = background, [fg] = foreground\n");
+        println("[bg] = background, [fg] = foreground");
+        println("for example: color --set[s] black white\n");
         println("typing command without any parameters will return the current color scheme");
 
         return;
