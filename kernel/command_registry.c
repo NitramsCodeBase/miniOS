@@ -48,6 +48,7 @@ void call_command_color(const char *args)
     char *parameters[3];
     int color_code[2];
     split(args, ' ', parameters);  
+    int len = sizeof(parameters) / sizeof(parameters[0]);
     
     if(strcmp(parameters[0], "--default") == 0 || strcmp(parameters[0], "d") == 0)
     {
@@ -61,10 +62,7 @@ void call_command_color(const char *args)
         
         return;
     }
-
-    int len = sizeof(parameters) / sizeof(parameters[0]);
-
-    if(strcmp(parameters[0], "--list") == 0 || strcmp(parameters[0], "l") == 0)
+    else if(strcmp(parameters[0], "--list") == 0 || strcmp(parameters[0], "l") == 0)
     {
         int max_size = get_max_color_palette();
 
@@ -73,8 +71,7 @@ void call_command_color(const char *args)
 
         return;
     }
-
-    if(strcmp(parameters[0], "--help") == 0 || strcmp(parameters[0], "h") == 0)
+    else if(strcmp(parameters[0], "--help") == 0 || strcmp(parameters[0], "h") == 0)
     {
         println("available commands:\n");
         println("--list, l               : lists all available colors for shell mode");
@@ -86,8 +83,7 @@ void call_command_color(const char *args)
 
         return;
     }
-
-    if(strcmp(parameters[0], "--set") == 0 || strcmp(parameters[0], "s") == 0)
+    else if(strcmp(parameters[0], "--set") == 0 || strcmp(parameters[0], "s") == 0)
     {
         if (strlen(parameters[1]) == 2) 
         {
@@ -105,6 +101,11 @@ void call_command_color(const char *args)
         }
 
         set_color(color_code);
+    }
+    else
+    {
+        println("error: invalid parameter");
+        return;
     }
 
     clear_screen();
