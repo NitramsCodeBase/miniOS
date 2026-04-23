@@ -45,7 +45,7 @@ void call_command_time(const char *args)
 
 void call_command_color(const char *args)
 {
-    char *parameters[2];
+    char *parameters[3];
     int color_code[2];
     split(args, ' ', parameters);  
     
@@ -57,14 +57,14 @@ void call_command_color(const char *args)
         set_color(color_code);
 
         clear_screen();
-        println("set default colors to black/lightgray");
+        println("success: set default colors to bg=black, fg=lightgray");
         
         return;
     }
 
     int len = sizeof(parameters) / sizeof(parameters[0]);
 
-    if(strcmp(parameters[0], "list") == 0)
+    if(strcmp(parameters[0], "--list") == 0 || strcmp(parameters[0], "l") == 0)
     {
         int max_size = get_max_color_palette();
 
@@ -78,26 +78,37 @@ void call_command_color(const char *args)
     {
         println("available commands:\n");
         println("--list, l               : lists all available colors for shell mode");
+        println("--set, s [bg] [fg]      : sets the specified color");
         println("--default, d            : sets the default color scheme back to normal\n");
+        println("[bg] = background, [fg] = foreground\n");
         println("typing command without any parameters will return the current color scheme");
 
         return;
     }
 
-    for (int i = 0; i < len; i++) 
-        color_code[i] = get_color_code(parameters[i]);
-
-    if (color_code[0] == -1 || color_code[1] == -1) 
+    if(strcmp(parameters[0], "--set") == 0 || strcmp(parameters[0], "s") == 0)
     {
-        println("error: invalid color code!");
-        return;
-    }
+        if (strlen(parameters[1]) == 2) 
+        {
+            println("error: --set is missing parameters.");
+            return;
+        }
 
-    set_color(color_code);
+        for (int i = 1; i < len; i++) 
+            color_code[i - 1] = get_color_code(parameters[i]);
+
+        if (color_code[0] == -1 || color_code[1] == -1) 
+        {
+            println("error: invalid color code!");
+            return;
+        }
+
+        set_color(color_code);
+    }
 
     clear_screen();
 
-    printf("color set to %s/%s\n", get_color(color_code[0]), get_color(color_code[1]));
+    printf("success: color set to bg=%s, fg=%s\n", parameters[1], parameters[2]);
 }
 
 void call_cmd_date(const char* args)
