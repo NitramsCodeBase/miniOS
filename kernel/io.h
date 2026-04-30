@@ -101,6 +101,8 @@ typedef struct {
 #define RIGHT_SHIFT_KEY     0x36
 #define CTRL_KEY            0x1D
 #define ALT_KEY             0x38
+#define SHIFT_KEY           0x2A
+#define CTRL_KEY            0x1C
 
 // Arrow keys (extended scancodes → need 0xE0 prefix handling!)
 #define ARROW_UP            0x48

@@ -4,8 +4,12 @@
 #include "../../kernel/apis/messagebox.h"
 
 Cursor current_cursor_pos;
+
 boolean running;
-boolean alt_pressed = false;
+boolean alt_pressed         = false;
+boolean shift_pressed       = false;
+boolean ctrl_pressed        = false;
+
 int button_index;
 
 const char* button_yes      = "  Okay  ";
@@ -82,13 +86,18 @@ void handler(u8 sc)
             alt_pressed = !alt_pressed;
             break;
 
+            
+        case SHIFT_KEY:
+            shift_pressed = !shift_pressed;
+            break;
+        
+        case CTRL_KEY:
+            ctrl_pressed = !ctrl_pressed;
+            break;
+        
         case F_KEY:
         {
-            if(alt_pressed)
-            {
-                reboot();
-            }
-
+            // code here for ALTF
             break;
         }
             
