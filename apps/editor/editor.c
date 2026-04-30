@@ -5,6 +5,7 @@
 
 Cursor current_cursor_pos;
 boolean running;
+boolean alt_pressed = false;
 int button_index;
 
 const char* button_yes      = "  Okay  ";
@@ -77,6 +78,20 @@ void handler(u8 sc)
 
     switch (sc)
     {
+        case ALT_KEY:
+            alt_pressed = !alt_pressed;
+            break;
+
+        case F_KEY:
+        {
+            if(alt_pressed)
+            {
+                reboot();
+            }
+
+            break;
+        }
+            
         case RETURN_KEY:
         {
             put_char('\n');

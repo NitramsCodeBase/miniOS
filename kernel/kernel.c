@@ -5,6 +5,7 @@
 #include "./apis/graphics_api.h"
 
 Cursor cursor;
+boolean debug = !true;
 
 void cursor_update();
 
@@ -51,6 +52,11 @@ void kernel_main()
             continue;
 
         u8 sc = inb(0x60);
+
+        if (debug) 
+        {
+            printf("key pressed scancode is: %d\n", sc);
+        }
 
         if (sc & 0x80)
             continue;
