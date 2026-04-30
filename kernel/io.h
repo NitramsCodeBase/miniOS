@@ -97,9 +97,6 @@ typedef struct {
 #define TAB_KEY             0x0F
 
 // Modifiers
-#define LEFT_SHIFT_KEY      0x2A
-#define RIGHT_SHIFT_KEY     0x36
-#define CTRL_KEY            0x1D
 #define ALT_KEY             0x38
 #define SHIFT_KEY           0x2A
 #define CTRL_KEY            0x1C

@@ -85,19 +85,27 @@ void handler(u8 sc)
         case ALT_KEY:
             alt_pressed = !alt_pressed;
             break;
-
             
         case SHIFT_KEY:
             shift_pressed = !shift_pressed;
             break;
         
-        case CTRL_KEY:
-            ctrl_pressed = !ctrl_pressed;
-            break;
-        
+        // case CTRL_KEY:
+        //     ctrl_pressed = !ctrl_pressed;
+        //     break;
+
         case F_KEY:
         {
-            // code here for ALTF
+            if(alt_pressed)
+            {
+                printf("%s\n", alt_pressed ? "ALT+F is pressed!" : "");
+            }
+
+            if(shift_pressed)
+            {
+                printf("%s\n", shift_pressed ? "SHIFT+F is pressed!" : "");
+            }
+
             break;
         }
             
@@ -111,6 +119,7 @@ void handler(u8 sc)
             move_cursor_to(1, cursor.y++);
             break;
         }
+
         case TAB_KEY:
         {
             current_cursor_pos = get_cursor_pos();
