@@ -9,7 +9,7 @@ u8 color = LIGHTGRAY_ON_BLACK;
 char input_buffer[128];
 int input_len = 0;
 
-int shift_pressed = 0;
+// int shift_pressed = 0;
 
 boolean active_app = false;
 

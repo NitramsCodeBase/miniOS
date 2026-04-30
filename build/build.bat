@@ -22,6 +22,7 @@ gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/api
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../apps/editor/editor.c -o editor.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/mouse.c -o mouse.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/messagebox.c -o messagebox.o
+gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../apps/editor/menu.c -o menu.o
 
 @REM rem linking... add .o files to the command list
 
@@ -40,7 +41,8 @@ gcc -m32 -nostdlib -Wl,-T,../linker/linker.ld -Wl,-e,_start -o kernel.exe ^
  date.o ^
  editor.o ^
  mouse.o ^
- messagebox.o
+ messagebox.o ^
+ menu.o
 
 objcopy -O binary kernel.exe kernel.bin
 copy /b boot.bin+kernel.bin miniOS.img 

@@ -1,3 +1,4 @@
+#include "menu.h"
 #include "editor.h"
 #include "../../kernel/io.h"
 #include "../../libs/string.h"
@@ -9,7 +10,6 @@ boolean running;
 boolean alt_pressed         = false;
 boolean shift_pressed       = false;
 boolean ctrl_pressed        = false;
-
 int button_index;
 
 const char* button_yes      = "  Okay  ";
@@ -89,22 +89,26 @@ void handler(u8 sc)
         case SHIFT_KEY:
             shift_pressed = !shift_pressed;
             break;
-        
-        // case CTRL_KEY:
-        //     ctrl_pressed = !ctrl_pressed;
-        //     break;
 
         case F_KEY:
         {
             if(alt_pressed)
             {
-                printf("%s\n", alt_pressed ? "ALT+F is pressed!" : "");
+                // open file menu 
+                char* entries[6];
+
+                entries[0] = "New...  ";
+                entries[1] = "--------";
+                entries[2] = "Open... ";
+                entries[3] = "Save... ";
+                entries[4] = "--------";
+                entries[5] = "Close...";
+
+                create_menu(2, 1, entries);
+
+                return;
             }
 
-            if(shift_pressed)
-            {
-                printf("%s\n", shift_pressed ? "SHIFT+F is pressed!" : "");
-            }
 
             break;
         }
