@@ -106,6 +106,14 @@ void handler(u8 sc)
 
                 create_menu(2, 1, entries);
 
+                while(1)
+                {
+                    char* option = menu_handler();
+
+                    if(strcmp(option, "ret") == 0)
+                        break;
+                }
+
                 return;
             }
 
