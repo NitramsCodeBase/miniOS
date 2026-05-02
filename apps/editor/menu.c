@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "../../kernel\io.h"
+#include "../../kernel/io.h"
 #include "../../libs/string.h"
 
 char** options;
@@ -8,95 +8,109 @@ int _posy;
 int len;
 int index = 0;
 
+u8 last_sc = 0;
+
 int get_max_entry_size();
-void update_menu();
+void redraw_menu();
 
 void create_menu(int posx, int posy, char** entries)
 {
-    len = sizeof(entries) + 1;
-
     options = entries;
     _posx = posx;
     _posy = posy;
+    index = 0;
+    last_sc = 0;
 
-    if(len == 0)
-    {
-        println("error: menu is empty");
-        return;
-    }
+    len = sizeof(entries);
 
-    print_color(_posx - 1, _posy, _posx + get_max_entry_size() + 1, _posy + len + 1, "lightgray", "lightgray");
+    print_color(
+        _posx - 1,
+        _posy,
+        _posx + get_max_entry_size() + 1,
+        _posy + len,
+        "darkgray",
+        "lightgray"
+    );
 
-    print_color(0, 0, 0, 0, "lightgray", "black");
-
-    for (int i = 0; i <= len; i++) 
-    {
-        move_cursor_to(posx, posy++);
-        println(entries[i]);
-    }
-
+    redraw_menu();
     disable_cursor();
 }
 
-void hide_menu(int posx, int posy)
+void hide_menu()
 {
-    // code here.
+    print_color(_posx - 1, _posy, _posx + get_max_entry_size() + 1, _posy + len + 1, "blue", "black");
 }
 
 char* menu_handler()
 {
-    char* option;
-
-    print_color(0, 0, 0, 0, "green", "white");
-    move_cursor_to(_posx, _posy);
-    printf("%s", options[0]);
-
     u8 sc = inb(0x60);
 
-    switch(sc)
+    // Ignore repeated same key while it is held down
+    if (sc == last_sc)
+        return "";
+
+    last_sc = sc;
+
+    // Key release scancodes have bit 7 set
+    if (sc & 0x80)
     {
-        case UP_KEY:
-        {
-            break;
-        }
-        case 0xD0:
-        {
-            update_menu();
-            break;
-        }
-        case RETURN_KEY:
-        {
-            option = "ret";
-            break;
-        }
+        last_sc = 0;
+        return "";
     }
 
-    return option;
+    switch (sc)
+    {
+        case UP_KEY:
+            if (index > 0)
+                index--;
+            else
+                index = len - 1;
+
+            redraw_menu();
+            break;
+
+        case DOWN_KEY:
+            if (index < len - 1)
+                index++;
+            else
+                index = 0;
+
+            redraw_menu();
+            break;
+
+        case RETURN_KEY:
+            return options[index];
+        case ESCAPE_KEY:
+            return "ret";
+    }
+
+    return "";
+}
+
+void redraw_menu()
+{
+    for (int i = 0; i < len; i++)
+    {
+        print_color(0, 0, 0, 0, i == index ? "green" : "lightgray", i == index ? "white" : "black");
+
+        move_cursor_to(_posx, _posy + i);
+        printf("%s", options[i]);
+    }
+
+    print_color(0, 0, 0, 0, "lightgray", "black");
 }
 
 int get_max_entry_size()
 {
-    int size;
+    int size = 0;
 
-    for (int i = 0; i <= len; i++) 
+    for (int i = 0; i < len; i++)
     {
-        if (i == 0)
-            size = strlen(options[i]);
+        int current = strlen(options[i]);
 
-        if(strlen(options[i]) > size)
-            size = strlen(options[i]);
+        if (current > size)
+            size = current;
     }
 
     return size;
-}
-
-void update_menu()
-{
-    move_cursor_to(0,0);
-    printf("%d", index++);
-
-    return;
-    print_color(0, 0, 0, 0, "green", "white");
-    move_cursor_to(_posx, _posy + index);
-    printf("%s", options[index]);
 }

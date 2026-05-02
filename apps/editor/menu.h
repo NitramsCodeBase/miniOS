@@ -2,7 +2,7 @@
 #define MENU_H
 
 void create_menu(int posx, int posy, char** entries);
-void hide_menu(int posx, int posy);
+void hide_menu();
 char* menu_handler();
 
 #endif

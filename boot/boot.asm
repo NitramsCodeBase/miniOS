@@ -9,7 +9,7 @@ DATA_SEG            equ 0x10
 ;   sectors = (kernel_size + 511) / 512
 ; Example: 34664 bytes -> 68 sectors
 ; ------------------------------------------------------------------
-SECTORS_TO_READ     equ 70
+SECTORS_TO_READ     equ 75
 
 ; ------------------------------------------------------------------
 ; Future-proof loading strategy:

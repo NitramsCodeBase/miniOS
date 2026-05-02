@@ -16,6 +16,29 @@ const char* button_yes      = "  Okay  ";
 const char* button_no       = "  Cancel  ";
 const int   delay_seconds   = 8000;    
 
+char* file_menu[] =
+{
+    "New ...  ",
+    "Open ... ",
+    "Save ... ",
+    "Close ..."
+};
+
+char* option_menu[] = 
+{
+    "Copy  ...  ",
+    "Paste ...  ",
+    "Element ...",
+    "Settings..."
+};
+
+char* help_menu[] =
+{
+    "About ...    ",
+    "Knowledge ...",
+    "Version ...  "
+};
+
 void handler(u8 sc);
 void terminate_editor_message();
 void confirmed_about_dialog(int position, const char* caption);
@@ -94,33 +117,78 @@ void handler(u8 sc)
         {
             if(alt_pressed)
             {
-                // open file menu 
-                char* entries[6];
+                create_menu(2, 1, file_menu);
 
-                entries[0] = "New...  ";
-                entries[1] = "--------";
-                entries[2] = "Open... ";
-                entries[3] = "Save... ";
-                entries[4] = "--------";
-                entries[5] = "Close...";
+                boolean handling = true;
 
-                create_menu(2, 1, entries);
-
-                while(1)
+                while(handling)
                 {
                     char* option = menu_handler();
 
-                    if(strcmp(option, "ret") == 0)
-                        break;
+                    if(strcmp(option, file_menu[3]) == 0 || strcmp(option, "ret") == 0) 
+                        handling = false;
                 }
+
+                alt_pressed = false;
+
+                hide_menu();
 
                 return;
             }
 
+            break;
+        }
+
+        case O_KEY:
+        {
+            if(alt_pressed)
+            {
+                create_menu(10, 1, option_menu);
+
+                boolean handling = true;
+
+                while(handling)
+                {
+                    char* option = menu_handler();
+
+                    if(strcmp(option, option_menu[0]) == 0 || strcmp(option, "ret") == 0) 
+                        handling = false;
+                }
+
+                alt_pressed = false;
+
+                hide_menu();
+
+                return;
+            }
+            break;
+        }
+
+        case H_KEY:
+        {
+            if(alt_pressed)
+            {
+                create_menu(23, 1, help_menu);
+
+                boolean handling = true;
+
+                while(handling)
+                {
+                    char* option = menu_handler();
+
+                    if(strcmp(option, help_menu[0]) == 0 || strcmp(option, "ret") == 0) 
+                        handling = false;
+                }
+
+                alt_pressed = false;
+
+                hide_menu();
+
+                return;
+            }
 
             break;
         }
-            
         case RETURN_KEY:
         {
             put_char('\n');
