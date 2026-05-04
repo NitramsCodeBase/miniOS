@@ -20,9 +20,6 @@ void create_menu(int posx, int posy, char* entries[])
     _posy = posy;
     index = 0;
     last_sc = 0;
-
-    // len = (unsigned long long)sizeof(entries) / sizeof(entries[0]);
-
     len = 0;
     
     while (entries[len] != NULL)
@@ -36,6 +33,22 @@ void create_menu(int posx, int posy, char* entries[])
         "darkgray",
         "lightgray"
     );
+
+    // drawing shadows 
+    print_color(
+        _posx + get_max_entry_size() + 2, 
+        _posy + 1,
+        _posx + get_max_entry_size() + 2,
+        _posy + len + 1,
+        "black", 
+        "black"        
+    );
+
+    // print_color(
+        
+    // );
+
+    print_color(0, 0, 0, 0, "blue", "white");
 
     redraw_menu();
     disable_cursor();

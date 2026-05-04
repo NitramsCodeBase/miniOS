@@ -139,6 +139,10 @@ void handler(u8 sc)
                 return;
             }
 
+            cursor = get_cursor_pos();
+            move_cursor_to(cursor.x, cursor.y);
+            print(shift_pressed ? "F" : "f");
+
             break;
         }
 
@@ -164,6 +168,11 @@ void handler(u8 sc)
 
                 return;
             }
+
+            cursor = get_cursor_pos();
+            move_cursor_to(cursor.x, cursor.y);
+            print(shift_pressed ? "O" : "o");
+
             break;
         }
 
@@ -189,6 +198,10 @@ void handler(u8 sc)
 
                 return;
             }
+
+            cursor = get_cursor_pos();
+            move_cursor_to(cursor.x, cursor.y);
+            print(shift_pressed ? "H" : "h");
 
             break;
         }
@@ -508,6 +521,12 @@ boolean close_app_dialog()
                     button_index = 1;
 
                 update_close_dialog_button();
+                break;
+            }
+            case ESCAPE_KEY:
+            {
+                hide_close_app_dialog();
+                running = false;
                 break;
             }
         }
