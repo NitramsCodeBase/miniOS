@@ -52,6 +52,7 @@ void hide_about();
 boolean close_app_dialog();
 void hide_close_app_dialog();
 void update_close_dialog_button();
+void text_color();
 
 void run_editor(void)
 {
@@ -78,7 +79,7 @@ void run_editor(void)
     // print whole screen
     print_color(1, 1, 79, 24, "blue", "black");
 
-    print_color(0, 0, 0, 0, "blue", "white");
+    text_color();
     move_cursor_to(1, 1);
 
     running = true;
@@ -136,6 +137,8 @@ void handler(u8 sc)
 
                 hide_menu();
 
+                text_color();
+
                 return;
             }
 
@@ -166,6 +169,8 @@ void handler(u8 sc)
 
                 hide_menu();
 
+                text_color();
+
                 return;
             }
 
@@ -195,6 +200,8 @@ void handler(u8 sc)
                 alt_pressed = false;
 
                 hide_menu();
+
+                text_color();
 
                 return;
             }
@@ -572,4 +579,9 @@ void update_close_dialog_button()
             break;
         }
     }
+}
+
+void text_color()
+{
+    print_color(0, 0, 0, 0, "blue", "white");
 }

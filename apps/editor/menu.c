@@ -34,22 +34,6 @@ void create_menu(int posx, int posy, char* entries[])
         "lightgray"
     );
 
-    // drawing shadows 
-    print_color(
-        _posx + get_max_entry_size() + 2, 
-        _posy + 1,
-        _posx + get_max_entry_size() + 2,
-        _posy + len + 1,
-        "black", 
-        "black"        
-    );
-
-    // print_color(
-        
-    // );
-
-    print_color(0, 0, 0, 0, "blue", "white");
-
     redraw_menu();
     disable_cursor();
 }
@@ -105,19 +89,6 @@ char* menu_handler()
     return "";
 }
 
-void redraw_menu()
-{
-    for (int i = 0; i < len; i++)
-    {
-        print_color(0, 0, 0, 0, i == index ? "green" : "lightgray", i == index ? "white" : "black");
-
-        move_cursor_to(_posx, _posy + i);
-        printf("%s", options[i]);
-    }
-
-    print_color(0, 0, 0, 0, "lightgray", "black");
-}
-
 int get_max_entry_size()
 {
     int size = 0;
@@ -131,4 +102,17 @@ int get_max_entry_size()
     }
 
     return size;
+}
+
+void redraw_menu()
+{
+    for (int i = 0; i < len; i++)
+    {
+        print_color(0, 0, 0, 0, i == index ? "green" : "lightgray", i == index ? "white" : "black");
+
+        move_cursor_to(_posx, _posy + i);
+        printf("%s", options[i]);
+    }
+
+    print_color(0, 0, 0, 0, "lightgray", "black");
 }
