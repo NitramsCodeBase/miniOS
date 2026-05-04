@@ -21,7 +21,9 @@ char* file_menu[] =
     "New ...  ",
     "Open ... ",
     "Save ... ",
-    "Close ..."
+    "Print ...",
+    "Close ...",
+    NULL
 };
 
 char* option_menu[] = 
@@ -29,14 +31,16 @@ char* option_menu[] =
     "Copy  ...  ",
     "Paste ...  ",
     "Element ...",
-    "Settings..."
+    "Settings...",
+    NULL
 };
 
-char* help_menu[] =
+char* help_menu[] = 
 {
     "About ...    ",
     "Knowledge ...",
-    "Version ...  "
+    "Version ...  ",
+    NULL
 };
 
 void handler(u8 sc);
@@ -53,10 +57,6 @@ void run_editor(void)
 {
     clear_screen();
 
-    // create_messagebox(20, 5, 60, 15, "Hello World");
-
-    // return;
-
     input_len = 0;
     button_index = 1;
 
@@ -71,6 +71,9 @@ void run_editor(void)
 
     move_cursor_to(2, 0);
     println(menu);
+
+    move_cursor_to(65, 0);
+    println("in development");
 
     // print whole screen
     print_color(1, 1, 79, 24, "blue", "black");
@@ -125,7 +128,7 @@ void handler(u8 sc)
                 {
                     char* option = menu_handler();
 
-                    if(strcmp(option, file_menu[3]) == 0 || strcmp(option, "ret") == 0) 
+                    if(strcmp(option, file_menu[4]) == 0 || strcmp(option, "ret") == 0) 
                         handling = false;
                 }
 

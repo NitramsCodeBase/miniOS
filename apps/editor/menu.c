@@ -13,7 +13,7 @@ u8 last_sc = 0;
 int get_max_entry_size();
 void redraw_menu();
 
-void create_menu(int posx, int posy, char** entries)
+void create_menu(int posx, int posy, char* entries[])
 {
     options = entries;
     _posx = posx;
@@ -21,7 +21,12 @@ void create_menu(int posx, int posy, char** entries)
     index = 0;
     last_sc = 0;
 
-    len = sizeof(entries);
+    // len = (unsigned long long)sizeof(entries) / sizeof(entries[0]);
+
+    len = 0;
+    
+    while (entries[len] != NULL)
+        len++;
 
     print_color(
         _posx - 1,
