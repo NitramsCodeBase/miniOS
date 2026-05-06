@@ -3,8 +3,8 @@
 #include "pit.h"
 #include "system.h"
 #include "command_registry.h"
-#include "../libs/string.h"
-#include "../libs/graphic.h"
+#include "string.h"
+#include "graphic.h"
 
 void shell_execute(const char* cmd)
 {

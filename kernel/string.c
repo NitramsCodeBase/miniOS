@@ -1,6 +1,6 @@
-#include <stdarg.h>
-#include "../kernel/io.h"
+#include "io.h"
 #include "string.h"
+#include <stdarg.h>
 
 int strlen(const char* s)
 {

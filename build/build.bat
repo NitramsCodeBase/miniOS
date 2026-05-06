@@ -14,8 +14,8 @@ gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/io.
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/shell.c -o shell.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/command_registry.c -o command_registry.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/system.c -o system.o
-gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../libs/string.c -o string.o
-gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../libs/graphic.c -o graphic.o
+gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/string.c -o string.o
+gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/graphic.c -o graphic.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/graphics_api.c -o graphics_api.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/time.c -o time.o
 gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c ../kernel/apis/date.c -o date.o

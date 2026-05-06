@@ -1,7 +1,7 @@
 #include "menu.h"
 #include "editor.h"
+#include "string.h"
 #include "../../kernel/io.h"
-#include "../../libs/string.h"
 #include "../../kernel/apis/messagebox.h"
 
 Cursor current_cursor_pos;
@@ -23,7 +23,7 @@ char* file_menu[] =
     "Save ... ",
     "Print ...",
     "Close ...",
-    NULL
+    null
 };
 
 char* option_menu[] = 
@@ -32,7 +32,7 @@ char* option_menu[] =
     "Paste ...  ",
     "Element ...",
     "Settings...",
-    NULL
+    null
 };
 
 char* help_menu[] = 
@@ -40,7 +40,7 @@ char* help_menu[] =
     "About ...    ",
     "Knowledge ...",
     "Version ...  ",
-    NULL
+    null
 };
 
 void handler(u8 sc);
@@ -193,7 +193,27 @@ void handler(u8 sc)
                 {
                     char* option = menu_handler();
 
-                    if(strcmp(option, help_menu[0]) == 0 || strcmp(option, "ret") == 0) 
+                    if(strcmp(option, help_menu[0]) == 0)
+                    {
+                        hide_menu();
+                        
+                        enum Button btn = OKAY;
+
+                        const char* content = "mini-editor for mini-os\ndeveloped by Martin\n\nversion 1";
+
+                        create_messagebox(
+                            20,
+                             5,
+                            60,
+                            15,
+                            btn,
+                            "about mini-editor...",
+                            content
+                        );
+
+                    }
+
+                    if(strcmp(option, "ret") == 0) 
                         handling = false;
                 }
 

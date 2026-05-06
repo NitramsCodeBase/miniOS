@@ -18,7 +18,7 @@ typedef struct {
 
 #define true 1
 #define false 0
-#define NULL ((void*)0)
+#define null ((void*)0)
 
 #define VGA_MEMORY          ((u16*)0xB8000)
 #define VGA_WIDTH           80

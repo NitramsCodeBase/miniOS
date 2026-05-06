@@ -1,6 +1,6 @@
 #include "menu.h"
 #include "../../kernel/io.h"
-#include "../../libs/string.h"
+#include "../../kernel/string.h"
 
 char** options;
 int _posx;
@@ -22,7 +22,7 @@ void create_menu(int posx, int posy, char* entries[])
     last_sc = 0;
     len = 0;
     
-    while (entries[len] != NULL)
+    while (entries[len] != null)
         len++;
 
     print_color(
