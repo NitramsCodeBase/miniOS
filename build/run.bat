@@ -2,10 +2,10 @@
 @echo.
 @echo starting mini-os ...
 
-if not exist "./miniOS.img" goto :errornotfound
+if not exist "./mini.os" goto :errornotfound
 
 qemu-system-i386 ^
- -drive format=raw,file=miniOS.img ^
+ -drive format=raw,file=mini.os ^
  -display gtk,full-screen=on
 
  goto :end

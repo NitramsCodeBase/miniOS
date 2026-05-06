@@ -45,7 +45,7 @@ gcc -m32 -nostdlib -Wl,-T,../linker/linker.ld -Wl,-e,_start -o kernel.exe ^
  menu.o
 
 objcopy -O binary kernel.exe kernel.bin
-copy /b boot.bin+kernel.bin miniOS.img 
+copy /b boot.bin+kernel.bin mini.os
 
 @echo.
 @echo deleting temporary build files...
@@ -55,7 +55,7 @@ del kernel_entry.obj
 del *.o
 del *.exe
 
-if not exist "./miniOS.img" goto :errornotfound
+if not exist "./mini.os" goto :errornotfound
 
 @echo.
 @echo success
