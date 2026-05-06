@@ -7,10 +7,10 @@ enum Button button;
 
 const char* buttons[] = 
 {
-    "  OKAY  \0",
-    "  YES   \0",
-    "  NO    \0",
-    "  CANCEL\0"
+    "  Okay  \0",
+    "  Yes   \0",
+    "  No    \0",
+    "  Cancel\0"
 };
 
 void create_messagebox(int x1, int y1, int x2, int y2, enum Button button, const char* caption, const char* content)
