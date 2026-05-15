@@ -1,20 +1,8 @@
-Instructions to build mini-os Shell 1.0
-======================================
+mini OS
+=======
 
-1. kernel entry
-nasm -f win32 kernel_entry.asm -o kernel_entry.obj
+This is a private project, the goal is writing from the scratch an operating system.
 
-2. kernel.c
-gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -c kernel.c -o kernel.o
+It is using QEMU to emulate old computers, to boot the provided image directly into the system.
 
-3. linken
-gcc -m32 -nostdlib -Wl,-T,linker.ld -Wl,-e,_start -o kernel.exe kernel_entry.obj kernel.o
-
-4. bin erzeugen
-objcopy -O binary kernel.exe kernel.bin
-
-5. image bauen
-copy /b boot.bin+kernel.bin os-image.bin
-
-6. starten
-qemu-system-i386 -drive format=raw,file=os-image.bin
+The project uses C/Assembler.
